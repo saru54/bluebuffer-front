@@ -1,149 +1,192 @@
 <template>
-
-    <el-container class="contianer" v-infinite-scroll="load">
-
-            <el-header class="header">
-                <div class="headerone">
-
-                </div>
-                <div>
-                    <SearchComponent></SearchComponent>
-                </div>
-                <div>
-                    <UserInfoForHome></UserInfoForHome>
-                </div>
-                <div>
-                    <MessageBadgeBar></MessageBadgeBar>
-                </div>
-            </el-header>
-
-
-        <el-main class="main">
-            <!-- <div class="mainleft">
-                
-
-                <div class="tag">
-
-                </div>
-            </div> -->
-            <div class="mainright">
-                <div class="hotbar">
-                    <HotBar></HotBar>
-                </div>
-                <div class="blogrec">
-                    <BlogRecommend @loading="handleLoading" :load-more="loadMore" />
-                    <div v-if="loadCompleted == false" class="loading" v-loading="loading"
-                        element-loading-text="加载中...">
-
-                    </div>
-                </div>
+    <div class="app">
+        <ChatPage :visible="chatModelStore.visible"></ChatPage>
+        <el-header class="header">
+            <div class="left">
+                <h2>BlueBuffer</h2>
+            </div>
+            <div class="middle">
+                <SearchComponent></SearchComponent>
 
             </div>
-        </el-main>
-    </el-container>
+            <div class="right">
+                <CreateBlogButton></CreateBlogButton>
+                <ChatButton></ChatButton>
+                <InfoButton></InfoButton>
+                <ToggleButton></ToggleButton>
+                <UserInfoForHome></UserInfoForHome>
+            </div>
 
+
+        </el-header>
+        <el-container class="content">
+            <el-aside class="aside" width="200px">
+                <div class="menu">
+                    <el-menu>
+                        <el-menu-item index="1" @click="toBlogRecommend">首页</el-menu-item>
+                        <el-menu-item index="2" @click="toClubRecommend">
+                            广场
+                        </el-menu-item>
+                        <el-menu-item index="3" @click="toCreateClubPage">创建俱乐部</el-menu-item>
+                        <el-menu-item index="4" @click="toCollectPage">我的收藏</el-menu-item>
+                    </el-menu>
+                </div>
+                <div class="adminclub">
+                    <AdminClubMenu></AdminClubMenu>
+                </div>
+                <div class="subscribeclub">
+
+                    <SubscribedClubMenu></SubscribedClubMenu>
+                </div>
+            </el-aside>
+            <el-main class="main">
+                <div class="mainleft">
+
+                    <RouterView :key="$route.path"></RouterView>
+
+
+                </div>
+                <div class="mainright">
+
+                </div>
+            </el-main>
+        </el-container>
+    </div>
 </template>
+
 <script setup>
-import { onMounted, ref } from 'vue';
-import HotBar from './bar/HotBar.vue';
 
 import SearchComponent from './search/SearchComponent.vue';
-
-import { loginEntity } from '../functions/login'
-import BlogRecommend from './blog/BlogRecommend.vue';
-
-import MessageBadgeBar from './message/MessageBadgeBar.vue';
 import UserInfoForHome from './user/UserInfoForHome.vue';
-const loading = ref(false)
-const isLogined = ref(false)
-const loadCompleted = ref(false)
-const loadMore = ref(false)
-function load() {
-    if (loadCompleted.value == true) {
-        loadMore.value = true;
-        loading.value = true;
-    }
+import ToggleButton from './button/ToggleButton.vue';
+import ChatPage from './message/ChatPage.vue';
+import InfoButton from './button/InfoButton.vue';
+import ChatButton from './button/ChatButton.vue';
+import SubscribedClubMenu from './menu/SubscribedClubMenu.vue';
+import AdminClubMenu from './menu/AdminClubMenu.vue';
+import CreateBlogButton from './button/CreateBlogButton.vue';
+
+
+import router from '@/routers/router';
+import { chatModelStore } from '@/functions/chat';
+
+function toClubRecommend() {
+    router.push("/home/clubRecommendPage")
 }
-
-function handleLoading(condition) {
-    loadCompleted.value = condition
-    if (condition == true) {
-        loadMore.value = false
-        loading.value = false;
-    }
+function toBlogRecommend() {
+    router.push("/home/blogRecommendPage")
 }
-onMounted(() => {
-    isLogined.value = loginEntity.get()
-
-})
-
+function toCreateClubPage() {
+    router.push("/home/clubCreatePage")
+}
+function toCollectPage() {
+    router.push("/home/collect")
+}
 </script>
-<style scoped>
-.contianer {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    /* 保证子元素能在相对位置上定位 */
+
+<style>
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
 }
 
-.loading {
-    width: 100%;
-    height: 100px;
+body {
+    overflow-y: auto;
+}
+
+.app {
+    min-height: 100vh;
+    position: relative;
 }
 
 .header {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
     position: fixed;
-    align-items: center;
     top: 0;
     left: 0;
-    right: 0;
-    background-color: white;
-
+    width: 100%;
     z-index: 100;
+    line-height: 50px;
+    height: 50px;
+    border-bottom: 1px solid var(--el-border-color);
+    display: flex;
+    align-items: center;
+    background-color: var(--el-bg-color);
+}
 
+.left {
+    margin-right: auto;
+}
+
+.right {
+    margin-left: auto;
+    display: flex;
+    gap: 15px;
+
+}
+
+.middle {
+    text-align: center;
+}
+
+.content {
+    padding-top: 50px;
+    min-height: calc(100vh - 50px);
+}
+
+.aside {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 200px !important;
+    overflow: hidden;
+    border-right: 1px solid var(--el-border-color);
+    ;
+}
+
+.aside-content {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 10px;
+}
+
+.aside ul {
     padding: 10px 0;
-    /* 根据需要设置顶部和底部的内边距 */
+    margin: 0;
 }
 
 .main {
-    display: flex;
-    margin-top: 60px;
-    /* 让主内容下移，避免被 header 遮挡 */
-}
+    margin-left: 200px;
+    padding: 20px;
+    min-height: calc(100vh - 50px);
 
-.mainleft {
-    width: 150px;
-    margin-right: 3%;
-    position: fixed;
-    /* 固定在左侧 */
-    top: 60px;
-    /* 距离顶部 60px，避免与 header 重叠 */
-    left: 20%;
-    bottom: 0;
-    /* 固定在页面的底部 */
-    padding: 5px;
-    background-color: white;
-    /* 设置背景色 */
-    z-index: 50;
-    /* 确保它位于内容区的下方 */
-}
-
-.mainright {
-    width: 70%;
-    margin-left: 30%;
+    z-index: 1;
 
 }
 
-.tag {
-    margin-top: 20px;
+.main-content {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.blogrec {
-    width: 100%;
-    overflow: hidden;
+
+.aside-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.aside-content::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+}
+
+.aside-content:hover::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.aside .el-menu {
+    border-bottom: 1px solid var(--el-border-color);
 }
 </style>

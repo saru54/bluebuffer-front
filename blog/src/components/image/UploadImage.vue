@@ -1,6 +1,6 @@
 <template>
-    <el-form-item prop="image" label="上传图片" v-model="form.image">
-        <el-upload :action="'/api/image/upload'" list-type="picture-card" :limit="maxUpload"
+    <el-form-item prop="image" :label="label" v-model="form.image">
+        <el-upload v-model:file-list="fileList" :action="baseURL" list-type="picture-card" :limit="maxUpload"
             :on-exceed="limitError" :on-success="imgSuccess" :on-error="imgError" :before-upload="handleBeforeUpload"
             :headers="uploadHeaders">
             <i class="el-icon-plus"></i>
@@ -9,11 +9,20 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-const { maxUpload, defaultImage } = defineProps(['maxUpload', 'defaultImage'])
+import { ElNotification } from 'element-plus';
+import { computed, onMounted, ref } from 'vue';
+const baseURL = import.meta.env.VITE_BaseUrl + "/file/image/upload";
+const { maxUpload, defaultImage, label } = defineProps(['maxUpload', 'defaultImage', 'label'])
 const emit = defineEmits(["uploaded"])
-const token = localStorage.getItem('jwt')
+const images = defineModel()
+const fileList = computed(() => images.value.map(e =>
+({
+    url: e
+})))
 
+
+
+const token = localStorage.getItem('jwt')
 const form = ref({
     image: ''
 })
@@ -23,7 +32,12 @@ const uploadHeaders = ref({
 })
 
 const imgError = () => {
-    alert('上传失败');
+
+    ElNotification({
+        title: "图片上传",
+        content: "图片上传失败",
+        type: "error"
+    })
 };
 
 const limitError = () => {
@@ -31,11 +45,16 @@ const limitError = () => {
 };
 
 const imgSuccess = (response) => {
-    alert('上传成功');
-    url.value = response.message;
+    ElNotification({
+        title: "图片上传",
+        content: "图片上传成功",
+        type: "success"
+    })
+    url.value = response;
     form.value.image = url.value;
-
     emit("uploaded", url.value);
+
+
 };
 
 function handleBeforeUpload() {

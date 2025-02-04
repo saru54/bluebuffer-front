@@ -1,101 +1,114 @@
 
-import TestVue from "@/components/TestVue.vue"
 import UserInfo from "@/components/user/UserInfo.vue"
 import BlogPage from "@/components/blog/BlogPage.vue"
-import {createRouter, createWebHashHistory } from "vue-router"
-import BlogRecommend from "@/components/blog/BlogRecommend.vue"
-import HomePage from "@/components/HomePage.vue"
-import BarPage from "@/components/bar/BarPage.vue"
+import {createRouter, createWebHashHistory, createWebHistory } from "vue-router"
 import LoginPage from "@/components/user/LoginPage.vue"
 import RegisterPage from "@/components/user/RegisterPage.vue"
-import CreateBarPage from "@/components/bar/CreateBarPage.vue"
-
-import PrivateMessagePage from "@/components/message/PrivateMessagePage.vue"
-
-import CommonMessagePage from "@/components/message/CommonMessagePage.vue"
 import UserEdit from "@/components/user/UserEdit.vue"
 import SearchPage from "@/components/search/SearchPage.vue"
-
-
+import ClubPage from "@/components/bar/ClubPage.vue"
+import CreateBlogPage from "@/components/blog/CreateBlogPage.vue"
+import ClubRecommendPage from "@/components/bar/ClubRecommendPage.vue"
+import BlogRecommendPage from "@/components/blog/BlogRecommendPage.vue"
+import ClubCreatePage from "@/components/bar/ClubCreatePage.vue"
+import HomePage from "@/components/HomePage.vue"
+import NotificationPage from "@/components/message/NotificationPage.vue"
+import UserCollectPage from "@/components/user/UserCollectPage.vue"
+import AdminTest from "@/components/admin/adminTest.vue"
 const routes = [
-    {
-      path: '/blogPage/:blogId/:commentId?',
-      component: BlogPage,
-      props:true
-    },
-    {
-      path:'/userInfo/:userId',
-      component: UserInfo,
-      props:true
-    },
-    {
-      path:"/",
-      redirect: '/homePage'
-    },
-    {
-      path:"/blogRec",
-      component:BlogRecommend
-    },
-    {
-      path:"/testVue",
-      component: TestVue
-    },{
-      path:'/homePage',
-      component: HomePage
-    },{
-      path:'/barPage/:barId',
-      component : BarPage,
-      props:true
-    },{
-      path:'/loginPage',
-      component: LoginPage
-    },
-    {
-      path:'/registerPage',
-      component:RegisterPage
-    },
-    {
-      path:'/createBarPage',
-      component:CreateBarPage
-    },{
-      path:'/privateMessagePage/:userId?/:userName?',
-      component:PrivateMessagePage,
-      props:true
-    },{
-      path:'/commonMessagePage/:index?',
-      component:CommonMessagePage
-    },{
-      path:"/userEdit",
-      component:UserEdit
-    },{
-      path:'/searchPage/:type/:query/:page',
-      component: SearchPage,
-      // props:true
-    }
-  ]
+  {
+    path: '/home',
+    component: HomePage,
+    children: [
+      {
+        path: 'blogPage/:blogId/:commentId?', 
+        component: BlogPage,
+        props: true
+      },
+      {
+        path: 'userInfo/:userId',
+        component: UserInfo,
+        props: true
+      },
+      {
+        path: 'blogRecommendPage',
+        component: BlogRecommendPage
+      },
+      {
+        path: 'clubPage/:clubId',
+        component: ClubPage,
+        props: true
+      },
+      {
+        path: 'clubCreatePage',
+        component: ClubCreatePage
+      },
+
+      {
+        path: 'edit',
+        component: UserEdit
+      },
+      {
+        path: 'search/:type/:query/:page',
+        component: SearchPage,
+        // props: true
+      },
+      {
+        path: 'createBlogPage',
+        component: CreateBlogPage
+      },
+      {
+        path: 'clubRecommendPage',
+        component: ClubRecommendPage
+      },{
+        path: 'notification/:type',
+        component: NotificationPage
+      },{
+        path:'collect',
+        component: UserCollectPage
+      }
+    ]
+  },
+  {
+    path: '/login',
+    name:"login",
+    component: LoginPage
+  },
+  {
+    path: '/register',
+    name:"register",
+    component: RegisterPage
+  },
+  {
+    path:"/",
+    redirect: "/home/blogRecommendPage"
+  },
+  {
+    path:"/admin",
+    component:AdminTest
+  }
+]
+
+
+
   
   const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
   })
-  // router.beforeEach((to,from,next) =>{
-  //   const token = localStorage.getItem("jwt")
-  //   if((to.path !== "/loginPage" || to.path!=="/registerPage" ) && !token){
-  //     next("/loginPage")
-  //   }else{
-  //     axios.post("http://localhost:8080/user/verifyToken",null,{
-  //       headers:{
-  //         token:token
-  //       }
-  //     }).then(res=>{
-  //       if(res.status ===200){
-  //         next();
-  //       }else{
-  //         next("/loginPage")
-  //       }
-  //     }).catch(()=>{
-  //       next("/loginPage")
-  //     })
-  //   }
-  // })
+  router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem("jwt") ;
+    const userId = localStorage.getItem("userId");
+    console.log(token);
+    
+    if (to.name === "login" || to.name === "register") {
+      next();
+      return; 
+    } 
+    if (token == null || userId == null) {
+      next({ name: "login" });
+    } else {
+      next();
+    }
+  });
   export default router
