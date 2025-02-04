@@ -6,6 +6,7 @@
                 <BlogBriefPage v-for="(blog, index) of data" :is-home="true" :key="index" :blog="blog"
                     @clicked="toBlogPage(blog)">
                 </BlogBriefPage>
+
             </div>
             <div v-if="loading" class="loading-container">
                 <svg class="circular-loader" viewBox="25 25 50 50">

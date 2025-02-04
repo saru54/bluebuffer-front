@@ -95,8 +95,6 @@ function querySearch(queryString, cb) {
     }).then(res => {
         if (res.status == 200) {
             const data = JSON.parse(res.data.record);
-            console.log(data);
-
             cb(data)
         }
     })

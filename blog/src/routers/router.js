@@ -98,9 +98,7 @@ const routes = [
   })
   router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("jwt") ;
-    const userId = localStorage.getItem("userId");
-    console.log(token);
-    
+    const userId = localStorage.getItem("userId");  
     if (to.name === "login" || to.name === "register") {
       next();
       return; 

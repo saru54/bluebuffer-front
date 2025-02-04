@@ -10,7 +10,6 @@
                     </div>
 
                 </template></el-autocomplete>
-
         </div>
         <div class="create_blog_title">
             <el-input placeholder="标题*" v-model="title"></el-input>
@@ -43,7 +42,8 @@ const token = localStorage.getItem("jwt")
 const userId = localStorage.getItem('userId')
 const club = ref(null)
 const subscribedClub = ref([])
-const clubName = ref(null)
+const clubName = ref("")
+
 watch(title, () => {
     if (title.value.length > 0) {
         disabledCondition.value = false
@@ -52,12 +52,18 @@ watch(title, () => {
     }
 
 })
-const querySearch = (queryString, cb) => {
-    const results = queryString
-        ? subscribedClub.value.filter(createFilter(queryString))
-        : subscribedClub.value
 
-    cb(results)
+const querySearch = (queryString, cb) => {
+    if (queryString == null || querySearch == "") {
+        cb(subscribedClub.value)
+    } else {
+        const results = queryString
+            ? subscribedClub.value.filter(createFilter(queryString))
+            : subscribedClub.value
+
+        cb(results)
+    }
+
 }
 const createFilter = (queryString) => {
     return (club) => {

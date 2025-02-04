@@ -4,8 +4,9 @@
         <div class="blog-berif-header">
             <div style="display: flex; gap: 10px;">
                 <ClubLink v-if="isHome" :club-id="blog.club.id" :club-image="blog.club.image"
-                    :club-name="blog.club.name">
+                    :club-name="blog.club.name" :disable="false">
                 </ClubLink>
+
                 <UserLink v-if="!isHome" :user-id="blog.user.id" :username="blog.user.name"
                     :user-image="blog.user.image">
                 </UserLink>
