@@ -109,8 +109,10 @@ function getData() {
 }
 
 onMounted(() => {
+
     getData()
     window.addEventListener('scroll', handleScroll);
+    window.scrollTo(0, 100);
 })
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll);
@@ -122,6 +124,10 @@ onBeforeUnmount(() => {
     margin-left: auto;
     margin-right: auto;
     display: flex;
+    overflow: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
 }
 
 .user-info-left {
@@ -131,7 +137,7 @@ onBeforeUnmount(() => {
 }
 
 .user-info-right {
-    width: 350px;
+    max-width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

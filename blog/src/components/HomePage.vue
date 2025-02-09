@@ -42,9 +42,17 @@
             <el-main class="main">
                 <div class="mainleft">
 
-                    <RouterView :key="$route.path"></RouterView>
-
-
+                    <!-- <RouterView :key="$route.path"></RouterView> -->
+                    <!-- <router-view v-slot="{ Component }">
+                        <keep-alive>
+                            <component :is="Component" :key="$route.path" />
+                        </keep-alive>
+                    </router-view> -->
+                    <RouterView v-slot="{ Component }">
+                        <KeepAlive include="BlogRecommendPage,ClubRecommendPage,ClubPage">
+                            <component :is="Component" :key="$route.path" />
+                        </KeepAlive>
+                    </RouterView>
                 </div>
                 <div class="mainright">
 

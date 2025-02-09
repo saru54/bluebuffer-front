@@ -24,7 +24,9 @@
                                         <h3>{{ item.title }}</h3>
                                         <pre>{{ item.content }}</pre>
                                     </div>
-                                    <div v-if="item.images.length > 0" style="max-width: 350px; height: auto;">
+
+                                    <div v-if="item.images && item.images.length > 0"
+                                        style="max-width: 350px; height: auto;">
                                         <el-image :src="item.images[0]"></el-image>
                                     </div>
                                 </div>
@@ -89,14 +91,13 @@ const token = localStorage.getItem("jwt")
 const type = computed(() => options.indexOf(currentOption.value))
 const decodeQuery = computed(() => decodeURIComponent(route.params.query))
 const encodeQuery = computed(() => encodeURIComponent(route.params.query))
-
 watch(page, () => {
+
     router.push(`/home/search/${type.value}/${encodeQuery.value}/${page.value}`);
 })
 watch(type, () => {
-
     const page = route.params.page;
-    console.log(encodeQuery.value);
+
     router.push(`/home/search/${type.value}/${encodeQuery.value}/${page}`)
 })
 function removeHistory(index) {
@@ -162,11 +163,7 @@ function queryBlog() {
         }
     }).then(res => {
         total.value = parseInt(res.data.count)
-
-
         data.value = JSON.parse(res.data.record)
-
-
     })
 }
 function queryClub() {

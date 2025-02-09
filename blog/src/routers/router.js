@@ -14,7 +14,7 @@ import ClubCreatePage from "@/components/bar/ClubCreatePage.vue"
 import HomePage from "@/components/HomePage.vue"
 import NotificationPage from "@/components/message/NotificationPage.vue"
 import UserCollectPage from "@/components/user/UserCollectPage.vue"
-import AdminTest from "@/components/admin/adminTest.vue"
+import AdminTest from "@/components/admin/AdminTest.vue"
 const routes = [
   {
     path: '/home',
@@ -32,6 +32,7 @@ const routes = [
       },
       {
         path: 'blogRecommendPage',
+        name:"rec",
         component: BlogRecommendPage
       },
       {
@@ -50,6 +51,7 @@ const routes = [
       },
       {
         path: 'search/:type/:query/:page',
+        name:"search",
         component: SearchPage,
         // props: true
       },

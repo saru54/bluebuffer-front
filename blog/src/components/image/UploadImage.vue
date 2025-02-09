@@ -15,10 +15,10 @@ const baseURL = import.meta.env.VITE_BaseUrl + "/file/image/upload";
 const { maxUpload, defaultImage, label } = defineProps(['maxUpload', 'defaultImage', 'label'])
 const emit = defineEmits(["uploaded"])
 const images = defineModel()
-const fileList = computed(() => images.value.map(e =>
+const fileList = computed(() => images.value ? images.value.map(e =>
 ({
     url: e
-})))
+})) : [])
 
 
 
