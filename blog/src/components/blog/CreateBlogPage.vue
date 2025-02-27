@@ -129,12 +129,15 @@ onMounted(() => {
     width: 60%;
     margin: auto;
 
+    @media screen and (max-width: 768px) {
+        width: 90%;
+        padding: 0 10px;
+    }
 }
 
 .create_blog_btn {
     justify-content: center;
     display: flex;
-
 }
 
 div {
@@ -142,9 +145,30 @@ div {
 }
 
 .create_blog_select_club {
-
     justify-content: left;
     align-items: center;
+}
 
+@media screen and (max-width: 768px) {
+
+    .el-input,
+    .el-autocomplete {
+        width: 100%;
+    }
+
+    .create_blog_title,
+    .create_blog_content,
+    .create_blog_select {
+        width: 100%;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
 }
 </style>

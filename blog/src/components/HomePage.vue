@@ -7,7 +7,6 @@
             </div>
             <div class="middle">
                 <SearchComponent></SearchComponent>
-
             </div>
             <div class="right">
                 <CreateBlogButton></CreateBlogButton>
@@ -16,11 +15,9 @@
                 <ToggleButton></ToggleButton>
                 <UserInfoForHome></UserInfoForHome>
             </div>
-
-
         </el-header>
         <el-container class="content">
-            <el-aside class="aside" width="200px">
+            <el-aside width="200px" :class="['desktop-only', 'aside']">
                 <div class="menu">
                     <el-menu>
                         <el-menu-item index="1" @click="toBlogRecommend">首页</el-menu-item>
@@ -35,13 +32,11 @@
                     <AdminClubMenu></AdminClubMenu>
                 </div>
                 <div class="subscribeclub">
-
                     <SubscribedClubMenu></SubscribedClubMenu>
                 </div>
             </el-aside>
             <el-main class="main">
                 <div class="mainleft">
-
                     <!-- <RouterView :key="$route.path"></RouterView> -->
                     <!-- <router-view v-slot="{ Component }">
                         <keep-alive>
@@ -59,6 +54,15 @@
                 </div>
             </el-main>
         </el-container>
+        <!-- 修改移动端底部导航 -->
+        <div class="mobile-nav">
+            <el-menu class="mobile-menu" mode="horizontal">
+                <el-menu-item index="1" @click="toBlogRecommend">首页</el-menu-item>
+                <el-menu-item index="2" @click="toClubRecommend">广场</el-menu-item>
+                <el-menu-item index="3" @click="toCreateClubPage">创建</el-menu-item>
+                <el-menu-item index="4" @click="toCollectPage">收藏</el-menu-item>
+            </el-menu>
+        </div>
     </div>
 </template>
 
@@ -196,5 +200,97 @@ body {
 
 .aside .el-menu {
     border-bottom: 1px solid var(--el-border-color);
+}
+
+/* 添加响应式样式 */
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 0 10px;
+    }
+
+    .left {
+        display: none;
+        /* 在移动端隐藏搜索框 */
+    }
+
+    .desktop-only {
+        display: none;
+        /* 隐藏部分桌面端按钮 */
+    }
+
+    .aside {
+        display: none;
+        /* 默认隐藏侧边栏 */
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .right {
+        gap: 10px;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+}
+
+/* 添加侧边栏响应式控制 */
+.aside.mobile-visible {
+    display: block;
+    width: 80% !important;
+    z-index: 1000;
+}
+
+/* 确保内容区域在移动端正确显示 */
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.mainleft {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.mainright {
+    width: 100%;
+}
+
+/* 修改移动端底部导航样式 */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--el-bg-color);
+    border-top: 1px solid var(--el-border-color);
+    z-index: 100;
+}
+
+.mobile-menu {
+    display: flex;
+    justify-content: space-around;
+}
+
+.mobile-menu .el-menu-item {
+    flex: 1;
+    text-align: center;
+    padding: 0 !important;
+    min-width: auto !important;
+}
+
+@media screen and (max-width: 768px) {
+    .mobile-nav {
+        display: block;
+    }
+
+    .main {
+        margin-bottom: 60px;
+        /* 为底部导航留出空间 */
+    }
 }
 </style>

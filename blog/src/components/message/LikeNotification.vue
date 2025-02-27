@@ -2,37 +2,29 @@
     <div v-if="data" class="c-n-container">
         <div v-for="notification of data" :key="notification.id">
             <div v-if="notification.targetType == 'BLOG'" class="c-n-item" @click="toBlog(notification.targetId)">
-                <div style="display: flex; flex-direction: column; ">
-                    <div style="display: flex; gap: 20px;">
+                <div class="notification-content">
+                    <div class="notification-header">
                         <UserLink :user-id="notification.user.id" :user-image="notification.user.image"
                             :username="notification.user.name">
                         </UserLink>
                         <el-text type="info">点赞了我的文章</el-text>
-
-                        <CreateTime :time="notification.createTime"></CreateTime>
                     </div>
-
-
-                    <p>标题: {{ notification.targetContent }}</p>
+                    <CreateTime :time="notification.createTime"></CreateTime>
+                    <p class="target-content">标题: {{ notification.targetContent }}</p>
                 </div>
-
             </div>
             <div v-if="notification.targetType == 'COMMENT'" class="c-n-item"
                 @click="toBlogWithLocate(notification.targetParentId, notification.targetId)">
-                <div style="display: flex; flex-direction: column;">
-                    <div style="display: flex; gap: 20px;">
+                <div class="notification-content">
+                    <div class="notification-header">
                         <UserLink :user-id="notification.user.id" :user-image="notification.user.image"
                             :username="notification.user.name">
                         </UserLink>
                         <el-text type="info">点赞了我的评论</el-text>
-
-                        <CreateTime :time="notification.createTime"></CreateTime>
                     </div>
-
-
-                    <p>原文: {{ notification.targetContent }}</p>
+                    <CreateTime :time="notification.createTime"></CreateTime>
+                    <p class="target-content">原文: {{ notification.targetContent }}</p>
                 </div>
-
             </div>
         </div>
         <el-pagination v-model="page" v-if="total > pageSize" background :total="total"
@@ -84,19 +76,44 @@ onMounted(() => {
 .c-n-container {
     display: flex;
     flex-direction: column;
-
-    margin-left: auto;
-    margin-right: auto;
-    padding: 30px;
-    width: 100%;
+    margin: 10px;
+    padding: 10px;
+    width: auto;
 }
 
 .c-n-item {
     display: flex;
-    justify-content: space-between;
-    min-width: 700px;
     width: 100%;
     border-bottom: 1px solid var(--el-border-color);
     cursor: pointer;
+    padding: 10px 0;
+}
+
+.notification-content {
+    width: 100%;
+}
+
+.notification-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.target-content {
+    margin-top: 8px;
+    word-break: break-all;
+}
+
+@media screen and (max-width: 768px) {
+    .c-n-item {
+        min-width: unset;
+    }
+
+    .notification-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
 }
 </style>

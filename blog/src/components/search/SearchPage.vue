@@ -5,28 +5,23 @@
                 <el-segmented size="large" v-model="currentOption" :options="options" block></el-segmented>
             </div>
         </div>
-        <div style="display: flex;">
+        <div class="search-content">
             <div class="search-left">
                 <div class="search-main">
                     <div v-for="(item, index) of data" :key="index">
                         <div v-if="type == 0">
                             <div class="search-item">
-                                <div style="display: flex; align-items: center; gap: 10px; "
-                                    @click="toClubPage(item.clubId)">
+                                <div class="search-item-header" @click="toClubPage(item.clubId)">
                                     <el-avatar :src="item.clubImage"></el-avatar>
                                     <el-text type="info">{{ item.clubName }}</el-text>
-
                                     <CreateTime :time="item.createTime"></CreateTime>
                                 </div>
-                                <div style="display: flex; justify-content: space-between;"
-                                    @click="toBlogPage(item.id)">
-                                    <div>
+                                <div class="search-item-content" @click="toBlogPage(item.id)">
+                                    <div class="search-item-text">
                                         <h3>{{ item.title }}</h3>
                                         <pre>{{ item.content }}</pre>
                                     </div>
-
-                                    <div v-if="item.images && item.images.length > 0"
-                                        style="max-width: 350px; height: auto;">
+                                    <div v-if="item.images && item.images.length > 0" class="search-item-image">
                                         <el-image :src="item.images[0]"></el-image>
                                     </div>
                                 </div>
@@ -220,6 +215,85 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.search-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.search-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-left {
+    width: 100%;
+}
+
+.search-right {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.search-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-item-text {
+    width: 100%;
+}
+
+.search-item-image {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+.search-item-image .el-image {
+    width: 100%;
+    height: auto;
+}
+
+/* 平板和桌面端样式 */
+@media screen and (min-width: 768px) {
+    .search-content {
+        flex-direction: row;
+    }
+
+    .search-left {
+        width: 70%;
+    }
+
+    .search-right {
+        width: 30%;
+        margin-top: 0;
+    }
+
+    .search-item-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .search-item-text {
+        width: calc(100% - 370px);
+    }
+
+    .search-item-image {
+        margin: 0;
+    }
+}
+
 .search-item {
     --el-card-bg-color: var(--el-fill-color-blank);
     padding: 2%;
@@ -237,33 +311,6 @@ onMounted(() => {
     background-color: var(--el-color-info-light-9);
 
 }
-
-
-.search-left {
-    width: 70%;
-
-
-}
-
-.search-right {
-    width: 30%;
-    --el-card-bg-color: var(--el-fill-color-blank);
-    padding: 2%;
-
-
-    /* 添加平滑过渡效果 */
-    gap: 10px;
-
-    margin: 10px;
-    border-radius: 3%;
-    cursor: pointer;
-}
-
-.search-container {
-    width: 90%;
-    margin: auto;
-}
-
 
 .search-tools {
     width: 80%;

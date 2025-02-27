@@ -1,15 +1,43 @@
 <template>
     <div class="user-info-contianer" v-if="data">
-        <div class="user-info-left">
+        <div class="user-info-mobile-header">
             <div class="user-info-header">
                 <el-avatar style="width: 150px; height: 150px; margin-right: 20px;" size="large"
                     :src="data.image"></el-avatar>
                 <h1 style="font-size: 50px; color: var(--el-color-info-dark-2); margin: 0;">{{
                     data.name }}</h1>
             </div>
+            <div class="user-info-right-mobile">
+                <div v-if="!isSelf"
+                    style="display: flex; gap: 10px; align-items: center; border-bottom: 0.5px solid var(--el-border-color); padding: 8px;">
+                    <el-button round size="large" @click="toChat">私信</el-button>
+                    <UserSubscribeButton :user-id="targetUserId" :condition="data.subscribe"></UserSubscribeButton>
+                </div>
+                <div
+                    style="display: flex; gap: 10px; align-items: center; border-bottom: 0.5px solid var(--el-border-color); padding: 8px;">
+                    <el-text type="info">{{ data.description }}</el-text>
+                </div>
+                <div style="display: flex; gap: 15px; border-bottom: 0.5px solid var(--el-border-color); padding: 8px;">
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <p>{{ data.blogCount }}</p>
+                        <el-text type="info">动态数</el-text>
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <p>{{ data.fansCount }}</p>
+                        <el-text type="info">粉丝数</el-text>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="user-info-left">
+            <div class="user-info-header desktop-only">
+                <el-avatar style="width: 150px; height: 150px; margin-right: 20px;" size="large"
+                    :src="data.image"></el-avatar>
+                <h1 style="font-size: 50px; color: var(--el-color-info-dark-2); margin: 0;">{{
+                    data.name }}</h1>
+            </div>
             <div class="user-info-tools">
-                <el-segmented style="width: 30%; height: 40px;" v-model="current" :options="options" block />
-
+                <el-segmented style="width: 100%;" v-model="current" :options="options" block />
             </div>
             <div class="user-info-show">
                 <div v-if="current == options[0]">
@@ -120,49 +148,96 @@ onBeforeUnmount(() => {
 </script>
 <style scoped>
 .user-info-contianer {
-    width: 80%;
+    width: 100%;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     overflow: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    padding: 0 20px;
+}
 
+.user-info-mobile-header {
+    display: none;
 }
 
 .user-info-left {
     width: 70%;
-    min-width: 800px;
-
+    min-width: auto;
 }
 
 .user-info-right {
     max-width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    border-radius: 2%;
-    background-color: var(--el-color-info-light-9);
-    padding: 20px;
-    gap: 5px;
-    height: 80vh;
-    min-width: 350px;
-
-
+    min-width: 300px;
 }
 
 .user-info-header {
-    display: flex;
-    align-items: end;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
-    height: 200px;
+.user-info-right-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .user-info-contianer {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .user-info-mobile-header {
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .user-info-left {
+        width: 100%;
+    }
+
+    .user-info-right {
+        display: none;
+    }
+
+    .user-info-right-mobile {
+        display: block;
+    }
+
+    .user-info-header {
+        height: auto;
+        padding: 20px 0;
+    }
+
+    .user-info-header h1 {
+        font-size: 30px !important;
+    }
+
+    .user-info-tools {
+        width: 100%;
+        margin-top: 15px;
+        padding: 0 10px;
+    }
+
+    .user-info-tools .el-segmented {
+        width: 100% !important;
+    }
+
+    .el-avatar {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .desktop-only {
+        display: none;
+    }
 }
 
 .user-info-tools {
     width: 80%;
     margin-top: 30px;
     display: flex;
-
     justify-content: space-between;
 }
 

@@ -1,7 +1,7 @@
 <template>
     <div :class="['slide', { 'active': visible }]">
         <el-container>
-            <el-aside width="200px" class="contact-list">
+            <el-aside :width="isMobile ? '100px' : '200px'" class="contact-list">
                 <span class="chatHeader">联系人</span>
                 <el-menu class="contact-scroll">
                     <el-menu-item v-for="contact in contacts" :key="contact.senderId" :index="contact.senderId"
@@ -18,6 +18,11 @@
                         <el-button @click="clearMessageHistory"><el-icon>
                                 <Delete />
                             </el-icon></el-button>
+                        <el-button @click="closePage">
+                            <el-icon>
+                                <Close />
+                            </el-icon>
+                        </el-button>
                     </div>
                 </el-header>
                 <el-main class="message-container">
@@ -44,7 +49,7 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch, computed } from 'vue';
 import messageaxios from '@/functions/messageaxios';
 import UserLink from '../user/UserLink.vue';
 import { createWebSocket, getConnectionCondition, getWebSocket } from '@/functions/websocket';
@@ -53,6 +58,7 @@ import CreateTime from '../time/CreateTime.vue';
 import { dayjs } from 'element-plus';
 import { chatModelStore } from '@/functions/chat';
 import { messageCountStore } from '@/functions/badge';
+import { useWindowSize } from '@vueuse/core';
 
 const selectContact = ref(null);
 const messageInput = ref("");
@@ -60,6 +66,11 @@ const userId = localStorage.getItem("userId")
 const { visible } = defineProps(["visible"]);
 const token = localStorage.getItem("jwt")
 const data = ref(null)
+const { width } = useWindowSize();
+const isMobile = computed(() => width.value <= 768);
+function closePage() {
+    chatModelStore.toggle()
+}
 class Contact {
     constructor(senderId, senderImage, senderName, message) {
         this.senderId = senderId
@@ -254,7 +265,8 @@ onMounted(() => {
     top: 0;
     left: -100%;
     height: 100vh;
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     background-color: var(--el-bg-color);
     transition: transform 0.3s ease, left 0.3s ease;
     z-index: 1000;
@@ -358,5 +370,27 @@ el-footer {
     padding: 10px;
     background-color: #fff;
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 添加移动端适配样式 */
+@media screen and (max-width: 768px) {
+    .contact-list {
+        .chatHeader {
+            font-size: 14px;
+        }
+    }
+
+    .message-container {
+        height: calc(100vh - 120px);
+    }
+
+    .message-item {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+
+    el-footer {
+        padding: 5px;
+    }
 }
 </style>

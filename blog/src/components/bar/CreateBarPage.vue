@@ -1,19 +1,17 @@
 <template>
     <div class="container">
-
-
-        <el-input placeholder="输入创建吧名" maxlength="10" minlength="1" v-model="inputBarName"></el-input>
-
-
-        <el-input placeholder="输入简介" v-model="description"></el-input>
-        <el-form-item prop="image" label="上传图片" v-model="form.image">
-            <el-upload :action="'http://localhost:8080/image/upload'" list-type="picture-card" :limit="maxCount"
-                :on-exceed="limitError" :on-success="imgSuccess" :on-error="imgError"
-                :before-upload="handleBeforeUpload" :headers="uploadHeaders">
-                <i class="el-icon-plus"></i>
-            </el-upload>
-        </el-form-item>
-        <el-button @click="createBar">创建</el-button><br>
+        <div class="form-content">
+            <el-input placeholder="输入创建吧名" maxlength="10" minlength="1" v-model="inputBarName"></el-input>
+            <el-input placeholder="输入简介" v-model="description"></el-input>
+            <el-form-item prop="image" label="上传图片" v-model="form.image">
+                <el-upload :action="'http://localhost:8080/image/upload'" list-type="picture-card" :limit="maxCount"
+                    :on-exceed="limitError" :on-success="imgSuccess" :on-error="imgError"
+                    :before-upload="handleBeforeUpload" :headers="uploadHeaders">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+            </el-form-item>
+            <el-button @click="createBar">创建</el-button><br>
+        </div>
     </div>
 </template>
 <script setup>
@@ -100,14 +98,33 @@ function createBar() {
 <style scoped>
 .container {
     display: flex;
-
     justify-content: center;
     gap: 20px;
-
     flex-direction: column;
-
-    width: 50%;
+    width: 90%;
     height: 100vh;
-    margin: auto auto;
+    margin: auto;
+    padding: 20px;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        width: 50%;
+    }
+}
+
+.form-content {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+:deep(.el-upload--picture-card) {
+    width: 100%;
+    max-width: 178px;
+}
+
+:deep(.el-input) {
+    width: 100%;
 }
 </style>

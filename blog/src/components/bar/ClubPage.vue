@@ -25,43 +25,45 @@
                 <BlogRecommendInClub :club-id="clubInfo.id"></BlogRecommendInClub>
             </div>
             <div class="club-info">
-                <div v-if="isEdit">
-                    <UploadImage label="头像" v-model="images" @uploaded="getImage"></UploadImage>
-                    <el-input v-model="description" type="textarea" :rows="5" placeholder="简介"
-                        style="margin-bottom: 10px;" />
+                <el-card>
+                    <div v-if="isEdit">
+                        <UploadImage label="头像" v-model="images" @uploaded="getImage"></UploadImage>
+                        <el-input v-model="description" type="textarea" :rows="5" placeholder="简介"
+                            style="margin-bottom: 10px;" />
 
-                    <div style="display: flex; gap: 10px;">
-                        <el-button @click="update">保存</el-button>
-                        <el-button @click="isEdit = false">取消</el-button>
+                        <div style="display: flex; gap: 10px;">
+                            <el-button @click="update">保存</el-button>
+                            <el-button @click="isEdit = false">取消</el-button>
+                        </div>
                     </div>
-                </div>
-                <div v-if="!isEdit">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                        {{ clubInfo.name }}
-                        <el-button v-if="validate()" @click="isEdit = !isEdit">编辑</el-button>
-                    </div>
-                    <el-text type="info">{{ clubInfo.description }}</el-text>
-                    <div>
-                        <el-text type="info" size="large">创建时间:</el-text>
-                        <CreateTime :time="clubInfo.createTime"></CreateTime>
-                    </div>
+                    <div v-if="!isEdit">
+                        <div class="info-header">
+                            <span class="info-title">{{ clubInfo.name }}</span>
+                            <el-button v-if="validate()" @click="isEdit = !isEdit" type="primary" text>编辑</el-button>
+                        </div>
+                        <div class="info-content">
+                            <el-text class="info-description">{{ clubInfo.description }}</el-text>
+                            <div class="info-item">
+                                <el-text type="info">创建时间:</el-text>
+                                <CreateTime :time="clubInfo.createTime"></CreateTime>
+                            </div>
 
-                    <div>
-                        <el-text type="info" size="large">订阅数:</el-text>
-                    </div>
+                            <div class="info-item">
+                                <el-text type="info">订阅数:</el-text>
+                                <span>{{ clubInfo.subscribeCount || 0 }}</span>
+                            </div>
 
-                    <div>
-                        <el-text type="info" size="large">管理员:</el-text>
+                            <div class="info-item">
+                                <el-text type="info">管理员:</el-text>
+                                <div class="club_admin">
+                                    <UserLink v-for="user of clubInfo.admins" :key="user.id" :user-id="user.id"
+                                        :username="user.name" :user-image="user.image">
+                                    </UserLink>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="club_admin">
-                        <UserLink v-for="(user) of clubInfo.admins" :key="user.id" :user-id="user.id"
-                            :username="user.name" :user-image="user.image">
-                        </UserLink>
-                    </div>
-                </div>
-
-
+                </el-card>
             </div>
         </div>
     </div>
@@ -154,60 +156,56 @@ function update() {
 <style scoped>
 .contianer {
     margin-top: 10px;
-    width: 80%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 .club-main {
     width: 100%;
-
-    display: flex;
-}
-
-.club_admin {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+}
+
+@media screen and (min-width: 768px) {
+    .contianer {
+        width: 80%;
+    }
+
+    .club-main {
+        flex-direction: row;
+    }
 }
 
 .club-blog {
-    min-width: 800px;
+    width: 100%;
+    min-width: auto;
 }
 
 .club-info {
-    width: 350px;
-    max-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    border-radius: 2%;
-    background-color: var(--el-color-info-light-9);
-    padding: 20px;
-    gap: 5px;
-    overflow-y: scroll;
-    min-width: 350px;
-
+    width: 100%;
+    min-width: auto;
+    margin-top: 20px;
 }
 
-.club-info::-webkit-scrollbar {
-    width: 8px;
-}
+@media screen and (min-width: 768px) {
+    .club-blog {
+        min-width: 800px;
+    }
 
-.club-info::-webkit-scrollbar-thumb {
-    background: transparent;
-    border-radius: 4px;
-}
-
-.club-info:hover::-webkit-scrollbar-thumb {
-    background: #888;
+    .club-info {
+        width: 350px;
+        min-width: 350px;
+        margin-top: 0;
+    }
 }
 
 .club-header {
     position: relative;
-    height: 300px;
+    height: 250px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .club-backgrondImage {
@@ -216,7 +214,7 @@ function update() {
     position: absolute;
     top: 0;
     left: 0;
-
+    object-fit: cover;
 }
 
 .club-image {
@@ -236,16 +234,24 @@ function update() {
 .club-name-btn {
     position: absolute;
     top: 200px;
-    /* 距离背景图片底部的间距 */
     left: 180px;
-    /* 位于头像右侧 */
     right: 20px;
-    /* 确保按钮在右侧对齐 */
     display: flex;
-    justify-content: space-between;
-    /* 两端对齐 */
-    align-items: center;
-    /* 垂直居中 */
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+@media screen and (min-width: 768px) {
+    .club-header {
+        height: 300px;
+    }
+
+    .club-name-btn {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 .club-name {
@@ -262,5 +268,56 @@ function update() {
 
 .club-button el-button {
     margin-left: auto;
+}
+
+.club_admin {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.club-info::-webkit-scrollbar {
+    width: 8px;
+}
+
+.club-info::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+}
+
+.club-info:hover::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+.info-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.info-description {
+    color: var(--el-text-color-secondary);
+    line-height: 1.5;
+}
+
+.info-item {
+    display: flex;
+
+    gap: 8px;
+    justify-content: center;
 }
 </style>

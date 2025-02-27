@@ -167,8 +167,37 @@ onMounted(() => {
 .blogimage {
     width: 25%;
     margin-top: 20px;
-
 }
+
+.blog-brief-tools {
+    margin-top: 5px;
+    display: flex;
+    gap: 30px;
+}
+
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 5px;
+        border-radius: 8px;
+    }
+
+    .blog-brief-tools {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        gap: 15px;
+    }
+
+    .blog-berif-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+    }
+}
+
 
 .container {
     /* background-color: #F2F4F7; */
@@ -187,12 +216,6 @@ onMounted(() => {
 .container:hover {
     background-color: var(--el-color-info-light-9);
 
-}
-
-.blog-brief-tools {
-    margin-top: 5px;
-    display: flex;
-    gap: 30px;
 }
 
 .blog-berif-header {

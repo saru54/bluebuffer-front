@@ -125,9 +125,23 @@ function handleSelect(item) {
 <style scoped>
 .search {
     width: 500px;
+    /* 电脑端固定宽度 */
+    padding: 0 15px;
 }
 
 .container {
     display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* 添加媒体查询以适配移动设备 */
+@media screen and (max-width: 768px) {
+    .search {
+        width: 100%;
+        /* 移动端采用百分比宽度 */
+        max-width: 500px;
+        padding: 0 10px;
+    }
 }
 </style>

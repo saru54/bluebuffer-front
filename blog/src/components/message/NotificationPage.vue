@@ -1,14 +1,24 @@
 <template>
     <div>
         <el-container class="notification-container">
-            <el-aside width="200px" class="notification-aside">
+            <!-- 在PC端显示侧边栏，在移动端显示顶部菜单 -->
+            <el-aside v-if="!isMobile" width="200px" class="notification-aside">
                 <el-menu style="border: none;">
                     <el-menu-item index="11" @click="toLike">点赞</el-menu-item>
                     <el-menu-item index="22" @click="toComment">回复</el-menu-item>
                     <el-menu-item index="33" @click="toSystem">系统通知</el-menu-item>
                 </el-menu>
-
             </el-aside>
+
+            <!-- 移动端顶部菜单 -->
+            <div v-else>
+                <el-menu mode="horizontal" style="border: none;">
+                    <el-menu-item index="11" @click="toLike">点赞</el-menu-item>
+                    <el-menu-item index="22" @click="toComment">回复</el-menu-item>
+                    <el-menu-item index="33" @click="toSystem">系统通知</el-menu-item>
+                </el-menu>
+            </div>
+
             <el-container class="notification-scroll">
                 <div v-if="type == notificationType.Like" style="width: 90%;">
 
@@ -30,6 +40,8 @@ import router from '@/routers/router';
 import { useRoute } from 'vue-router';
 import LikeNotification from './LikeNotification.vue';
 import CommentNotification from './CommentNotification.vue';
+import { ref, onMounted, onUnmounted } from 'vue'
+
 const userId = localStorage.getItem('userId')
 const token = localStorage.getItem('jwt')
 const route = useRoute()
@@ -39,6 +51,22 @@ const notificationType = {
     Comment: 'comment',
     System: "system"
 }
+
+const isMobile = ref(false)
+
+const checkMobile = () => {
+    isMobile.value = window.innerWidth <= 768
+}
+
+onMounted(() => {
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('resize', checkMobile)
+})
+
 function toComment() {
     router.push("/home/notification/comment")
 }
@@ -53,7 +81,7 @@ function toSystem() {
 .notification-container {
     height: 90vh;
     width: 100%;
-
+    flex-direction: column;
 }
 
 .notification-scroll {
@@ -78,5 +106,31 @@ function toSystem() {
 
 .notification-scroll:hover::-webkit-scrollbar-thumb {
     background: #888;
+}
+
+/* 移动端样式 */
+@media screen and (max-width: 768px) {
+    .notification-container {
+        height: calc(100vh - 60px);
+    }
+
+    .notification-scroll {
+        height: calc(100vh - 60px);
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .mobile-menu {
+        width: 100%;
+        border-bottom: 1px solid var(--el-border-color);
+    }
+
+    :deep(.el-menu--horizontal) {
+        justify-content: space-around;
+    }
+
+    :deep(.el-menu-item) {
+        padding: 0;
+    }
 }
 </style>

@@ -123,7 +123,7 @@ onMounted(() => {
 
 .rec-blog-container {
     margin-top: 10px;
-    width: 80%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -131,12 +131,12 @@ onMounted(() => {
 }
 
 .rec-blog {
-    width: 80%;
-    min-width: 800px;
+    width: 100%;
+    min-width: auto;
 }
 
 .loading-container {
-    min-width: 800px;
+    min-width: auto;
     height: 100px;
     display: flex;
     justify-content: center;
@@ -177,6 +177,16 @@ onMounted(() => {
     100% {
         stroke-dasharray: 89, 200;
         stroke-dashoffset: -124;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .rec-blog-container {
+        width: 95%;
+    }
+
+    .blog-image {
+        width: 100%;
     }
 }
 </style>

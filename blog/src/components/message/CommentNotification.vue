@@ -3,20 +3,19 @@
         <div v-for="comment of data" :key="comment.id">
             <div v-if="comment.targetType == 'BLOG'" class="c-n-item"
                 @click="toBlogWithLocate(comment.targetId, comment.id)">
-                <div style="display: flex; flex-direction: column; ">
-                    <div style="display: flex; gap: 20px;">
+                <div class="c-n-content">
+                    <div class="c-n-header">
                         <UserLink :user-id="comment.user.id" :user-image="comment.user.image"
                             :username="comment.user.name">
                         </UserLink>
                         <el-text type="info">回复了我的文章</el-text>
-
                         <CreateTime :time="comment.createTime"></CreateTime>
                     </div>
 
                     <p>回复内容: {{ comment.content }}</p>
                     <p>标题: {{ comment.targetContent }}</p>
                 </div>
-                <div v-if="comment.images.length > 0">
+                <div v-if="comment.images.length > 0" class="c-n-image">
                     <el-image :src="comment.images[0]" lazy loading="lazy" :fit="'contain'"
                         :preview-src-list="comment.images"></el-image>
                 </div>
@@ -44,7 +43,7 @@
 
         </div>
         <el-pagination v-model="page" v-if="total > pageSize" background :total="total"
-            layout="total, sizes, prev, pager, next, jumper"></el-pagination>
+            layout="prev, pager, next"></el-pagination>
     </div>
 </template>
 <script setup>
@@ -91,19 +90,50 @@ onMounted(() => {
 .c-n-container {
     display: flex;
     flex-direction: column;
-
-    margin-left: auto;
-    margin-right: auto;
-    padding: 30px;
+    padding: 15px;
     width: 100%;
 }
 
 .c-n-item {
     display: flex;
-    justify-content: space-between;
-    min-width: 700px;
+    flex-direction: column;
     width: 100%;
     border-bottom: 1px solid var(--el-border-color);
     cursor: pointer;
+    padding: 10px 0;
+}
+
+.c-n-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.c-n-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.c-n-image {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .c-n-container {
+        padding: 10px;
+    }
+
+    .c-n-header {
+        gap: 5px;
+    }
+
+    p {
+        margin: 5px 0;
+        word-break: break-word;
+    }
 }
 </style>
