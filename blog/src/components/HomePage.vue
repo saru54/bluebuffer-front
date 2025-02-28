@@ -103,10 +103,6 @@ html {
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-    overflow-x: hidden;
-    /* 防止水平滚动 */
-    position: relative;
-    /* 添加相对定位 */
 }
 
 body {
@@ -116,18 +112,12 @@ body {
 .app {
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
-    /* 防止水平滚动 */
-    width: 100%;
-    /* 确保宽度固定 */
 }
 
 .header {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    /* 添加右侧固定 */
     width: 100%;
     z-index: 100;
     line-height: 50px;
@@ -146,7 +136,7 @@ body {
     margin-left: auto;
     display: flex;
     gap: 15px;
-    position: relative;
+
 }
 
 .middle {
@@ -156,9 +146,6 @@ body {
 .content {
     padding-top: 50px;
     min-height: calc(100vh - 50px);
-    width: 100%;
-    overflow-x: hidden;
-    /* 防止内容区域水平滚动 */
 }
 
 .aside {
@@ -187,10 +174,9 @@ body {
     margin-left: 200px;
     padding: 20px;
     min-height: calc(100vh - 50px);
-    width: 100%;
-    overflow-x: hidden;
-    /* 防止主内容区域水平滚动 */
+
     z-index: 1;
+
 }
 
 .main-content {
@@ -220,11 +206,6 @@ body {
 @media screen and (max-width: 768px) {
     .header {
         padding: 0 10px;
-        position: fixed;
-        width: 100%;
-        box-sizing: border-box;
-        left: 0;
-        right: 0;
     }
 
     .left {
@@ -245,26 +226,14 @@ body {
     .main {
         margin-left: 0;
         padding: 10px;
-        width: 100%;
-        overflow-x: hidden;
-        /* 防止主内容区域水平滚动 */
     }
 
     .right {
         gap: 10px;
-        position: relative;
-        margin-left: auto;
-        flex-shrink: 0;
     }
 
     h2 {
         font-size: 1.2em;
-    }
-
-    .content {
-        width: 100%;
-        overflow-x: hidden;
-        /* 防止内容区域水平滚动 */
     }
 }
 

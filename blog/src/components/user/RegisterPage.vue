@@ -189,7 +189,6 @@ watch(name, () => {
     max-width: 1200px;
     background: transparent;
     gap: 2rem;
-    margin: 1rem;
 }
 
 .left-panel {
@@ -351,54 +350,5 @@ watch(name, () => {
     text-align: center;
     color: #888;
     margin-top: 1.5rem;
-}
-
-/* 添加媒体查询 */
-@media screen and (max-width: 768px) {
-    .register-content {
-        flex-direction: column;
-        margin: 1rem;
-        gap: 1rem;
-    }
-
-    .left-panel {
-        min-height: auto;
-        padding: 1.5rem;
-    }
-
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-
-    .name-fields {
-        flex-direction: column;
-    }
-
-    .social-icons {
-        gap: 0.5rem;
-    }
-
-    .password-requirements {
-        font-size: 0.8rem;
-    }
-
-    .register-header h2 {
-        font-size: 1.5rem;
-    }
-}
-
-/* 添加更小屏幕的适配 */
-@media screen and (max-width: 480px) {
-    .register-content {
-        margin: 0.5rem;
-    }
-
-    .hero-content h1 {
-        font-size: 1.5rem;
-    }
-
-    .password-requirements {
-        padding: 0.8rem;
-    }
 }
 </style>

@@ -98,30 +98,35 @@ function validate() {
 }
 function login() {
     if (validate()) {
-        coreaxios.post('/user/login', {
-            name: name.value,
-            password: password.value
-        }, {
-            headers: {
-                token: localStorage.getItem("jwt")
-            }
-        }).then(res => {
-            if (res.status == 200 && res.data != null) {
-                const dto = res.data;
-                localStorage.setItem('jwt', dto.token)
-                localStorage.setItem('userId', dto.id)
-                router.push("/home/blogRecommendPage")
-            } else {
-                ElMessage.error("账户或密码错误")
-            }
-        }).catch(error => {
-            if (error.response?.status === 400) {
-                ElMessage.error("账户或密码错误");
-            } else {
-                ElMessage.error("登录失败，请稍后重试");
-            }
-        })
+        try {
+            coreaxios.post('/user/login', {
+                name: name.value,
+                password: password.value
+            }, {
+                headers: {
+                    token: localStorage.getItem("jwt")
+                }
+            }).then(res => {
+                if (res.status == 200 && res.data != null) {
+
+
+                    const dto = res.data;
+                    localStorage.setItem('jwt', dto.token)
+                    localStorage.setItem('userId', dto.id)
+
+                    router.push("/home/blogRecommendPage")
+                } else {
+                    ElMessage("账户或密码错误")
+                }
+            })
+        } catch (error) {
+            console.log("asd");
+
+            ElMessage("账户或密码错误")
+        }
+
     }
+
 }
 </script>
 
@@ -132,8 +137,11 @@ function login() {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+
+
 }
+
+
 
 .login-content {
     display: flex;
@@ -141,11 +149,6 @@ function login() {
     max-width: 1200px;
     background: transparent;
     gap: 2rem;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 1rem;
-    }
 }
 
 .left-panel {
@@ -157,11 +160,6 @@ function login() {
     flex-direction: column;
     justify-content: space-between;
     min-height: 600px;
-
-    @media (max-width: 768px) {
-        min-height: auto;
-        padding: 1.5rem;
-    }
 }
 
 .logo {
@@ -178,10 +176,6 @@ function login() {
 
 .hero-content {
     margin: 4rem 0;
-
-    @media (max-width: 768px) {
-        margin: 2rem 0;
-    }
 }
 
 .hero-content h1 {
@@ -189,10 +183,6 @@ function login() {
     font-size: 3rem;
     margin: 0.5rem 0;
     font-weight: 600;
-
-    @media (max-width: 768px) {
-        font-size: 2rem;
-    }
 }
 
 .watch-demo-btn {
@@ -203,13 +193,11 @@ function login() {
     padding: 0.8rem 1.5rem;
 }
 
+
+
 .right-panel {
     flex: 1;
     color: white;
-
-    @media (max-width: 768px) {
-        padding: 0 1rem;
-    }
 }
 
 .login-header {
@@ -265,10 +253,6 @@ function login() {
     display: flex;
     justify-content: center;
     gap: 1rem;
-
-    @media (max-width: 768px) {
-        flex-wrap: wrap;
-    }
 }
 
 :deep(.el-button.is-circle) {
