@@ -1,8 +1,8 @@
 <template>
-    <div v-if="data" style="display: flex; align-items: center; cursor: pointer;">
-        <el-popover v-model:visible="visible" trigger="manual" placement="bottom" :width="isMobile ? 200 : 'auto'"
+    <div v-if="data" class="userinfo-container">
+        <el-popover v-model:visible="visible" trigger="manual" placement="left-start" :width="isMobile ? 200 : 'auto'"
             popper-class="user-popover">
-            <el-menu style="border: none;">
+            <el-menu style="border: none;" class="userinfo-home-popover-menu">
                 <el-menu-item index="1" @click="toUserInfo">个人页面</el-menu-item>
                 <el-menu-item index="2" @click="toEditPage">编辑信息</el-menu-item>
                 <el-popconfirm :hide-icon="true" title="确认注销" confirm-button-text="确认" cancel-button-text="取消"
@@ -95,20 +95,17 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.container {
-    z-index: 100;
+.userinfo-container {
+    position: relative;
     display: flex;
     align-items: center;
-
 }
-
 
 .logout-item {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 
 .toolButton {
     width: 100%;
@@ -118,12 +115,19 @@ onUnmounted(() => {
 :deep(.user-popover) {
     max-width: 90vw !important;
     width: auto !important;
-    margin: 0 auto;
+    position: fixed !important;
+    top: 50px !important;
+    /* 调整为紧贴header底部 */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0;
 }
 
 :deep(.el-menu) {
     width: 100%;
     min-width: 150px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
 }
 
 :deep(.el-menu-item) {
@@ -136,6 +140,19 @@ onUnmounted(() => {
 }
 
 @media screen and (max-width: 768px) {
+    :deep(.user-popover) {
+        position: fixed !important;
+        top: 50px !important;
+        right: 0 !important;
+        /* 确保靠右对齐 */
+        left: auto !important;
+        transform: none !important;
+        margin-right: 10px;
+        /* 添加右侧间距 */
+        width: 200px !important;
+        /* 设置固定宽度 */
+    }
+
     :deep(.el-avatar) {
         width: 32px;
         height: 32px;

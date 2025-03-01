@@ -189,6 +189,8 @@ watch(name, () => {
     max-width: 1200px;
     background: transparent;
     gap: 2rem;
+    margin: 2rem;
+    flex-direction: row;
 }
 
 .left-panel {
@@ -350,5 +352,72 @@ watch(name, () => {
     text-align: center;
     color: #888;
     margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .register-content {
+        flex-direction: column;
+        margin: 1rem;
+        gap: 1rem;
+    }
+
+    .left-panel {
+        min-height: auto;
+        padding: 1.5rem;
+    }
+
+    .hero-content {
+        margin: 2rem 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .right-panel {
+        padding: 1rem;
+    }
+
+    .register-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .name-fields {
+        flex-direction: column;
+    }
+
+    .password-requirements {
+        font-size: 0.8rem;
+    }
+
+    .social-icons {
+        gap: 0.5rem;
+    }
+
+    .register-btn {
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-content {
+        margin: 0.5rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .password-requirements {
+        padding: 0.8rem;
+    }
+
+    .register-header {
+        margin-bottom: 1rem;
+    }
+
+    .register-form {
+        gap: 0.8rem;
+    }
 }
 </style>

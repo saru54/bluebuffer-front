@@ -56,18 +56,42 @@
         </el-container>
         <!-- 修改移动端底部导航 -->
         <div class="mobile-nav">
-            <el-menu class="mobile-menu" mode="horizontal">
-                <el-menu-item index="1" @click="toBlogRecommend">首页</el-menu-item>
-                <el-menu-item index="2" @click="toClubRecommend">广场</el-menu-item>
-                <el-menu-item index="3" @click="toCreateClubPage">创建</el-menu-item>
-                <el-menu-item index="4" @click="toCollectPage">收藏</el-menu-item>
+            <el-menu class="mobile-menu" mode="horizontal" :ellipsis="false">
+                <el-menu-item index="1" @click="toggleMobileMenu">
+                    <el-icon>
+                        <Menu />
+                    </el-icon>
+                    菜单
+                </el-menu-item>
+                <el-menu-item index="2" @click="toBlogRecommend">首页</el-menu-item>
+                <el-menu-item index="3" @click="toClubRecommend">广场</el-menu-item>
+
             </el-menu>
         </div>
+
+        <!-- 移动端菜单抽屉 -->
+        <el-drawer v-model="mobileMenuVisible" direction="ltr" size="80%" class="mobile-drawer">
+            <div class="mobile-menu-content">
+                <div class="menu">
+                    <el-menu>
+                        <el-menu-item index="1" @click="toBlogRecommend">首页</el-menu-item>
+                        <el-menu-item index="2" @click="toClubRecommend">广场</el-menu-item>
+                        <el-menu-item index="3" @click="toCreateClubPage">创建俱乐部</el-menu-item>
+                        <el-menu-item index="4" @click="toCollectPage">我的收藏</el-menu-item>
+                    </el-menu>
+                </div>
+                <div class="adminclub">
+                    <AdminClubMenu></AdminClubMenu>
+                </div>
+                <div class="subscribeclub">
+                    <SubscribedClubMenu></SubscribedClubMenu>
+                </div>
+            </div>
+        </el-drawer>
     </div>
 </template>
 
 <script setup>
-
 import SearchComponent from './search/SearchComponent.vue';
 import UserInfoForHome from './user/UserInfoForHome.vue';
 import ToggleButton from './button/ToggleButton.vue';
@@ -77,10 +101,13 @@ import ChatButton from './button/ChatButton.vue';
 import SubscribedClubMenu from './menu/SubscribedClubMenu.vue';
 import AdminClubMenu from './menu/AdminClubMenu.vue';
 import CreateBlogButton from './button/CreateBlogButton.vue';
-
+import { Menu } from '@element-plus/icons-vue'
+import { ref } from 'vue'
 
 import router from '@/routers/router';
 import { chatModelStore } from '@/functions/chat';
+
+const mobileMenuVisible = ref(false)
 
 function toClubRecommend() {
     router.push("/home/clubRecommendPage")
@@ -94,6 +121,10 @@ function toCreateClubPage() {
 function toCollectPage() {
     router.push("/home/collect")
 }
+
+function toggleMobileMenu() {
+    mobileMenuVisible.value = !mobileMenuVisible.value
+}
 </script>
 
 <style>
@@ -103,6 +134,8 @@ html {
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
+    position: relative;
+
 }
 
 body {
@@ -112,12 +145,17 @@ body {
 .app {
     min-height: 100vh;
     position: relative;
+
+
+    /* 防止水平滚动 */
+    width: 100%;
 }
 
 .header {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
     z-index: 100;
     line-height: 50px;
@@ -126,6 +164,7 @@ body {
     display: flex;
     align-items: center;
     background-color: var(--el-bg-color);
+    box-sizing: border-box;
 }
 
 .left {
@@ -204,8 +243,42 @@ body {
 
 /* 添加响应式样式 */
 @media screen and (max-width: 768px) {
+
+    html,
+    body {
+
+        /* 隐藏移动端滚动条 */
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+
+        /* IE and Edge */
+        &::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera */
+        }
+    }
+
+    .mainleft::-webkit-scrollbar,
+    .content::-webkit-scrollbar,
+    .main::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mainleft,
+    .content,
+    .main {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
     .header {
         padding: 0 10px;
+        position: fixed;
+        width: 100%;
+        box-sizing: border-box;
+        left: 0;
+        right: 0;
     }
 
     .left {
@@ -281,6 +354,21 @@ body {
     text-align: center;
     padding: 0 !important;
     min-width: auto !important;
+    font-size: 12px;
+}
+
+/* 移动端抽屉菜单样式 */
+.mobile-drawer {
+    padding-bottom: 60px;
+}
+
+.mobile-menu-content {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.mobile-menu-content .el-menu {
+    border-right: none;
 }
 
 @media screen and (max-width: 768px) {

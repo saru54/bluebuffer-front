@@ -81,7 +81,7 @@ function toSystem() {
 .notification-container {
     height: 90vh;
     width: 100%;
-    flex-direction: column;
+
 }
 
 .notification-scroll {
@@ -112,6 +112,7 @@ function toSystem() {
 @media screen and (max-width: 768px) {
     .notification-container {
         height: calc(100vh - 60px);
+        flex-direction: column;
     }
 
     .notification-scroll {

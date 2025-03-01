@@ -85,8 +85,8 @@ function toRegister() {
     router.push("/register")
 }
 function validate() {
-    if (name.value.length < 4 || name.value == " " || name.value == null) {
-        ElMessage("用户名长度不能小于4")
+    if (name.value.length < 3 || name.value == " " || name.value == null) {
+        ElMessage("用户名长度不能小于3")
         return;
     }
     if (password.value.length < 6 || password.value == " " || password.value == null) {
@@ -149,6 +149,7 @@ function login() {
     max-width: 1200px;
     background: transparent;
     gap: 2rem;
+    margin: 1rem;
 }
 
 .left-panel {
@@ -265,5 +266,62 @@ function login() {
     text-align: center;
     color: #888;
     margin-top: 1.5rem;
+}
+
+/* 添加移动端响应式样式 */
+@media screen and (max-width: 768px) {
+    .login-content {
+        flex-direction: column;
+        gap: 1rem;
+        margin: 1rem;
+    }
+
+    .left-panel {
+        min-height: auto;
+        padding: 1.5rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .right-panel {
+        padding: 1rem;
+    }
+
+    .login-form {
+        gap: 0.8rem;
+    }
+
+    .social-icons {
+        flex-wrap: wrap;
+    }
+
+    .description {
+        font-size: 0.85rem;
+    }
+
+    .watch-demo-btn {
+        margin-top: 1rem;
+        padding: 0.6rem 1.2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .login-header {
+        margin-bottom: 1rem;
+    }
+
+    .join-text h3 {
+        font-size: 1rem;
+    }
+
+    .social-icons {
+        gap: 0.5rem;
+    }
 }
 </style>
