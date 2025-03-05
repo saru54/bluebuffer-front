@@ -9,7 +9,7 @@
                 <SearchComponent></SearchComponent>
             </div>
             <div class="right">
-                <CreateBlogButton></CreateBlogButton>
+                <CreateBlogButton class="is-only-pc"></CreateBlogButton>
                 <ChatButton></ChatButton>
                 <InfoButton></InfoButton>
                 <ToggleButton></ToggleButton>
@@ -74,6 +74,10 @@
             <div class="mobile-menu-content">
                 <div class="menu">
                     <el-menu>
+
+                        <el-menu-item index="0" @click="toCreateBlogPage">
+                            发布贴子
+                        </el-menu-item>
                         <el-menu-item index="1" @click="toBlogRecommend">首页</el-menu-item>
                         <el-menu-item index="2" @click="toClubRecommend">广场</el-menu-item>
                         <el-menu-item index="3" @click="toCreateClubPage">创建俱乐部</el-menu-item>
@@ -110,20 +114,28 @@ import { chatModelStore } from '@/functions/chat';
 const mobileMenuVisible = ref(false)
 
 function toClubRecommend() {
+    mobileMenuVisible.value = false
     router.push("/home/clubRecommendPage")
 }
 function toBlogRecommend() {
+    mobileMenuVisible.value = false
     router.push("/home/blogRecommendPage")
 }
 function toCreateClubPage() {
+    mobileMenuVisible.value = false
     router.push("/home/clubCreatePage")
 }
 function toCollectPage() {
+    mobileMenuVisible.value = false
     router.push("/home/collect")
 }
 
 function toggleMobileMenu() {
     mobileMenuVisible.value = !mobileMenuVisible.value
+}
+function toCreateBlogPage() {
+    mobileMenuVisible.value = false
+    router.push("/home/createBlogPage")
 }
 </script>
 
@@ -239,6 +251,10 @@ body {
 
 .aside .el-menu {
     border-bottom: 1px solid var(--el-border-color);
+}
+
+.is-only-pc {
+    display: none;
 }
 
 /* 添加响应式样式 */

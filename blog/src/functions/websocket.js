@@ -4,14 +4,16 @@ import { ref} from 'vue';
 const userId = localStorage.getItem("userId");
 let stompClient = null;
 const baseURL = import.meta.env.VITE_WebSocketUrl;
-const token = localStorage.getItem("jwt");
-
+const token = ref(null)
+token.value = localStorage.getItem("jwt");
 const isConnection = ref(false);
-
+export function fleshToken(){
+    token.value = localStorage.getItem("jwt");
+}
 export function createWebSocket() {
     if (!stompClient) {
         // WebSocket 服务器的 URL
-        const url = `${baseURL}?token=${token}`;
+        const url = `${baseURL}?token=${token.value}`;
 
         // 创建 STOMP 客户端并配置
         stompClient = new Client({

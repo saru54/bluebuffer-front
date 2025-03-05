@@ -76,6 +76,8 @@ import { VideoPlay } from '@element-plus/icons-vue'
 import router from '@/routers/router'
 import coreaxios from '@/functions/coreaxios'
 import { ElMessage } from 'element-plus'
+import { createWebSocket } from '@/functions/websocket'
+import { setLoginCondition } from '@/functions/login'
 
 const name = ref('')
 const password = ref('')
@@ -113,7 +115,7 @@ function login() {
                     const dto = res.data;
                     localStorage.setItem('jwt', dto.token)
                     localStorage.setItem('userId', dto.id)
-
+                    // setLoginCondition()
                     router.push("/home/blogRecommendPage")
                 } else {
                     ElMessage("账户或密码错误")

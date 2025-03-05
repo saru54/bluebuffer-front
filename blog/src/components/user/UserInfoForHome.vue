@@ -22,6 +22,7 @@
 <script setup>
 
 import coreaxios from '@/functions/coreaxios';
+import { ElMessage } from 'element-plus';
 import { onMounted, ref, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -65,6 +66,15 @@ function getData() {
     }).then(res => {
         data.value = res.data;
         if (res.status == 403) {
+            router.push("/login")
+        }
+    }).catch(err => {
+        if (err.response.status == 401) {
+            ElMessage({
+                message: "账号已过期，请重新登录",
+                type: "warning",
+                duration: 3000
+            })
             router.push("/login")
         }
     });

@@ -52,6 +52,7 @@ function getData() {
     }).then(res => {
         data.value = res.data.records
         total.value = res.data.count;
+        console.log(res.data);
 
     })
 }
@@ -59,6 +60,8 @@ watch(page, () => {
     getData()
 })
 onMounted(() => {
+
+
     getData()
 })
 </script>

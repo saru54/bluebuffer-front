@@ -85,6 +85,8 @@ import { useRoute } from 'vue-router';
 import UserSubscribeButton from '../button/UserSubscribeButton.vue';
 import BlogPageInUserInfo from '../blog/BlogPageInUserInfo.vue';
 import { chatModelStore } from '@/functions/chat';
+import router from '@/routers/router';
+import { ElMessage } from 'element-plus';
 const data = ref(null)
 const route = useRoute()
 const targetUserId = route.params.userId
@@ -125,15 +127,13 @@ function getData() {
         }
     }).then(res => {
         data.value = res.data
-
-
-
         nextTick(() => {
             if (userInfoRef.value) {
                 initialOffsetTop.value = userInfoRef.value.offsetTop;
             }
         });
     })
+
 }
 
 onMounted(() => {

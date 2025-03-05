@@ -6,8 +6,7 @@
                 <el-menu class="contact-scroll">
                     <el-menu-item v-for="contact in contacts" :key="contact.senderId" :index="contact.senderId"
                         @click="handleSelectContact(contact.senderId)">
-                        <UserLink :user-id="contact.senderId" :username="contact.senderName"
-                            :user-image="contact.senderImage"></UserLink>
+                        <UserLink :user-id="contact.senderId" :username="contact.senderName"></UserLink>
                     </el-menu-item>
                 </el-menu>
 
@@ -40,8 +39,10 @@
                         <el-text type="info" size="large">请选择联系人</el-text>
                     </div>
                 </el-main>
-                <el-footer v-if="selectContact != null">
+                <el-footer v-if="selectContact != null"
+                    style="display: flex; justify-content: center; align-items: center;">
                     <el-input v-model="messageInput" placeholder="发送消息" @keyup.enter="sendMessage"></el-input>
+                    <el-button @click="sendMessage">发送</el-button>
                 </el-footer>
             </el-container>
         </el-container>
@@ -253,9 +254,9 @@ function sendMessage() {
 }
 
 onMounted(() => {
-    // initWebSocket();
+    initWebSocket();
     initMesssage();
-    initWebSocket()
+
 });
 </script>
 
@@ -291,15 +292,14 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    /* Ensure it takes full height */
     overflow: hidden;
+    border-right: 1px solid var(--el-border-color);
 }
 
 .contact-scroll {
-    height: 90vh;
-    /* Fixed height with scroll */
+    height: calc(100vh - 40px);
     overflow-y: auto;
-    /* Enables vertical scrolling */
+    overflow-x: hidden;
 }
 
 /* Message Container Styling */
@@ -307,9 +307,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     height: calc(100vh - 150px);
-    /* Reserve space for header and footer */
     overflow-y: auto;
-    /* Enables vertical scrolling */
     padding: 10px;
 }
 
@@ -375,9 +373,16 @@ el-footer {
 /* 添加移动端适配样式 */
 @media screen and (max-width: 768px) {
     .contact-list {
+        height: 100vh;
+
         .chatHeader {
             font-size: 14px;
+            margin: 5px 0;
         }
+    }
+
+    .contact-scroll {
+        height: calc(100vh - 30px);
     }
 
     .message-container {
@@ -391,6 +396,10 @@ el-footer {
 
     el-footer {
         padding: 5px;
+    }
+
+    :deep(.el-menu-item) {
+        padding: 0 10px;
     }
 }
 </style>

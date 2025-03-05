@@ -12,10 +12,4 @@ function toCreateBlogPage() {
     router.push("/home/createBlogPage")
 }
 </script>
-<style scoped>
-@media screen and (max-width: 768px) {
-    .create_blog_btn_text {
-        display: none;
-    }
-}
-</style>
+<style scoped></style>
