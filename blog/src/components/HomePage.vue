@@ -2,7 +2,9 @@
     <div class="app">
         <ChatPage :visible="chatModelStore.visible"></ChatPage>
         <AiComponent />
+        <div class="header-mask"></div>
         <el-header class="header">
+
             <div class="left">
                 <h2>BlueBuffer</h2>
             </div>
@@ -167,6 +169,17 @@ body {
     padding-top: env(safe-area-inset-top, 20px);
 }
 
+.header-mask {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background-color: var(--el-bg-color);
+    z-index: 99;
+}
+
 .header {
     padding: 0 10px;
     position: fixed;
@@ -283,6 +296,10 @@ body {
         padding-top: env(safe-area-inset-top, 20px);
     }
 
+    .header-mask {
+        display: block;
+    }
+
     .header {
         padding: 0 10px;
         position: fixed;
@@ -291,6 +308,9 @@ body {
         left: 0;
         right: 0;
         margin-top: 20px;
+        background-color: var(--el-bg-color);
+        height: 50px;
+        z-index: 100;
     }
 
     .content {
