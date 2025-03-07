@@ -1,6 +1,7 @@
 <template>
     <div class="app">
         <ChatPage :visible="chatModelStore.visible"></ChatPage>
+        <AiComponent />
         <el-header class="header">
             <div class="left">
                 <h2>BlueBuffer</h2>
@@ -53,7 +54,9 @@
 
                 </div>
             </el-main>
+
         </el-container>
+
         <!-- 修改移动端底部导航 -->
         <div class="mobile-nav">
             <el-menu class="mobile-menu" mode="horizontal" :ellipsis="false">
@@ -105,6 +108,7 @@ import ChatButton from './button/ChatButton.vue';
 import SubscribedClubMenu from './menu/SubscribedClubMenu.vue';
 import AdminClubMenu from './menu/AdminClubMenu.vue';
 import CreateBlogButton from './button/CreateBlogButton.vue';
+import AiComponent from './AiComponent.vue';
 import { Menu } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
@@ -157,26 +161,27 @@ body {
 .app {
     min-height: 100vh;
     position: relative;
-
-
     /* 防止水平滚动 */
     width: 100%;
+    /* 添加顶部安全区域的内边距 */
+    padding-top: env(safe-area-inset-top, 20px);
 }
 
 .header {
+    padding: 0 10px;
     position: fixed;
-    top: 0;
+    width: 100%;
+    box-sizing: border-box;
     left: 0;
     right: 0;
-    width: 100%;
+
+    background-color: var(--el-bg-color);
     z-index: 100;
     line-height: 50px;
     height: 50px;
     border-bottom: 1px solid var(--el-border-color);
     display: flex;
     align-items: center;
-    background-color: var(--el-bg-color);
-    box-sizing: border-box;
 }
 
 .left {
@@ -195,7 +200,7 @@ body {
 }
 
 .content {
-    padding-top: 50px;
+    padding-top: calc(50px + env(safe-area-inset-top, 20px));
     min-height: calc(100vh - 50px);
 }
 
@@ -262,7 +267,6 @@ body {
 
     html,
     body {
-
         /* 隐藏移动端滚动条 */
         scrollbar-width: none;
         /* Firefox */
@@ -273,6 +277,24 @@ body {
             display: none;
             /* Chrome, Safari, Opera */
         }
+    }
+
+    .app {
+        padding-top: env(safe-area-inset-top, 20px);
+    }
+
+    .header {
+        padding: 0 10px;
+        position: fixed;
+        width: 100%;
+        box-sizing: border-box;
+        left: 0;
+        right: 0;
+        margin-top: 20px;
+    }
+
+    .content {
+        padding-top: calc(50px + env(safe-area-inset-top, 20px));
     }
 
     .mainleft::-webkit-scrollbar,
@@ -286,15 +308,6 @@ body {
     .main {
         scrollbar-width: none;
         -ms-overflow-style: none;
-    }
-
-    .header {
-        padding: 0 10px;
-        position: fixed;
-        width: 100%;
-        box-sizing: border-box;
-        left: 0;
-        right: 0;
     }
 
     .left {
@@ -315,6 +328,7 @@ body {
     .main {
         margin-left: 0;
         padding: 10px;
+        padding-top: calc(10px + env(safe-area-inset-top, 20px));
     }
 
     .right {
@@ -396,5 +410,7 @@ body {
         margin-bottom: 60px;
         /* 为底部导航留出空间 */
     }
+
+
 }
 </style>

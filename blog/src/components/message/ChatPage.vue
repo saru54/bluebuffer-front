@@ -12,7 +12,7 @@
 
             </el-aside>
             <el-container>
-                <el-header>
+                <el-header style="display: flex; justify-content: right; align-items: center;">
                     <div class="chattools">
                         <el-button @click="clearMessageHistory"><el-icon>
                                 <Delete />
@@ -308,98 +308,182 @@ onMounted(() => {
     flex-direction: column;
     height: calc(100vh - 150px);
     overflow-y: auto;
-    padding: 10px;
+    padding: 20px;
+    background-color: var(--el-bg-color-page);
 }
 
 .message-item {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-
-
+    margin-bottom: 15px;
+    max-width: 80%;
+    position: relative;
+    animation: fadeIn 0.3s ease;
 }
 
-.message-container::-webkit-scrollbar,
-.contact-scroll::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    background: transparent;
-
-}
-
-.contact-scroll:hover::-webkit-scrollbar,
-.message-container:hover::-webkit-scrollbar {
-    display: block;
-    background: transparent;
-
-}
-
-.contact-scroll::-webkit-scrollbar-thumb,
-.message-container::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-
-}
-
-.contact-scroll::-webkit-scrollbar-button,
-.message-container::-webkit-scrollbar-button {
-    display: none;
+.message-item p {
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
 }
 
 .sendMessage {
-    text-align: right;
-    border-color: rgb(50.8, 116.6, 184.5);
+    margin-left: auto;
 }
 
-.receiveMessage {
+.sendMessage p {
+    background-color: var(--el-color-primary);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.receiveMessage p {
+    background-color: var(--el-bg-color);
+    border: 1px solid var(--el-border-color);
+    border-bottom-left-radius: 4px;
+}
+
+.message-item div {
+    font-size: 12px;
+    color: var(--el-text-color-secondary);
+    margin-top: 4px;
+}
+
+.sendMessage div {
+    text-align: right;
+}
+
+.receiveMessage div {
     text-align: left;
 }
 
 .chattools {
-    text-align: right;
+    display: flex;
+    justify-content: right;
     align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--el-border-color);
-    margin-top: 10px;
-    margin-bottom: 5px;
 }
 
-el-footer {
-    padding: 10px;
-    background-color: #fff;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* 添加移动端适配样式 */
+/* 移动端适配 */
 @media screen and (max-width: 768px) {
-    .contact-list {
-        height: 100vh;
+    .message-container {
+        padding: 10px;
+        height: calc(100vh - 120px);
+    }
 
-        .chatHeader {
-            font-size: 14px;
-            margin: 5px 0;
-        }
+    .message-item {
+        max-width: 90%;
+        margin-bottom: 12px;
+    }
+
+    .message-item p {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .contact-list {
+        width: 100px !important;
     }
 
     .contact-scroll {
         height: calc(100vh - 30px);
     }
 
-    .message-container {
-        height: calc(100vh - 120px);
-    }
-
-    .message-item {
-        padding: 8px;
-        margin-bottom: 8px;
-    }
-
-    el-footer {
-        padding: 5px;
+    .chatHeader {
+        font-size: 14px;
+        padding: 8px 0;
     }
 
     :deep(.el-menu-item) {
-        padding: 0 10px;
+        padding: 0 8px;
+        height: 40px;
+        line-height: 40px;
     }
+
+    .chattools {
+        padding: 5px;
+
+    }
+
+    el-footer {
+        padding: 8px;
+    }
+
+    :deep(.el-input) {
+        width: calc(100% - 60px);
+    }
+}
+
+/* 滚动条样式优化 */
+.message-container::-webkit-scrollbar,
+.contact-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.message-container::-webkit-scrollbar-thumb,
+.contact-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--el-border-color);
+    border-radius: 3px;
+}
+
+.message-container::-webkit-scrollbar-track,
+.contact-scroll::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+/* 联系人列表样式优化 */
+.contact-list {
+    background-color: var(--el-bg-color);
+    border-right: 1px solid var(--el-border-color);
+}
+
+.chatHeader {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--el-border-color);
+}
+
+:deep(.el-menu-item) {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+}
+
+:deep(.el-menu-item.is-active) {
+    background-color: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
+}
+
+/* 底部输入框样式 */
+el-footer {
+    padding: 10px 15px;
+    background-color: var(--el-bg-color);
+    border-top: 1px solid var(--el-border-color);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+:deep(.el-input__wrapper) {
+    box-shadow: none;
+    border: 1px solid var(--el-border-color);
+}
+
+:deep(.el-input__wrapper:hover) {
+    border-color: var(--el-color-primary);
 }
 </style>
