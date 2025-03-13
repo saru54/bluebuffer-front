@@ -50,7 +50,7 @@
             </div>
         </div>
         <div v-if="!isEdit">
-            <pre>{{ comment.content }}</pre>
+            <pre>{{ content }}</pre>
             <el-image :hide-on-click-modal="true" v-for="(image, index) of comment.images" :key="index" :src="image"
                 lazy loading="lazy" :fit="'contain'" class="comment-berif-images"
                 :preview-src-list="comment.images"></el-image>
@@ -71,11 +71,12 @@
                     </el-button>
                 </el-tooltip>
             </div>
-            <ShareButton></ShareButton>
+
             <ReplyCommentButton :comment="comment"></ReplyCommentButton>
             <el-button
                 v-if="(comment.parentType == parentType.BLOG) && (comment.commentCount > 0) && (showMore == true)"
                 @click="subCommentVisible = !subCommentVisible">展开回复</el-button>
+            <TranslateComponent :content="comment.content" @translated="translated"></TranslateComponent>
         </div>
         <div>
             <SubCommentPage v-if="subCommentVisible" :comment-id="comment.id"></SubCommentPage>
@@ -93,6 +94,7 @@ import { onMounted, ref } from 'vue';
 import coreaxios from '@/functions/coreaxios';
 import { ElNotification } from 'element-plus';
 import UploadImage from '../image/UploadImage.vue';
+import TranslateComponent from '../TranslateComponent.vue';
 const parentType = {
     BLOG: "BLOG",
     COMMENT: "COMMENT",
@@ -108,6 +110,9 @@ const content = ref(null)
 // const respondDialogVisible = ref(false)
 function getImage(url) {
     images.value.push(url)
+}
+function translated(result) {
+    content.value = result.map(item => item.dst).join("\n")
 }
 function deleteComment() {
     coreaxios.post("/comment/delete", {
@@ -187,5 +192,22 @@ onMounted(() => {
     margin-top: 5px;
     display: flex;
     gap: 30px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.comment-berif-tools::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+@media screen and (max-width: 768px) {
+    .comment-berif-tools {
+        padding-bottom: 5px;
+    }
 }
 </style>

@@ -55,7 +55,8 @@
 
         <div v-if="!isEdit" @click="toBlogPage">
             <h3>{{ title }}</h3>
-            <pre>{{ showContent }}</pre>
+            <pre v-if="isHome">{{ showContent }}</pre>
+            <pre v-else>{{ content }}</pre>
             <el-image v-for="(image, index) of blog.images" :key="index" :src="image" lazy loading="lazy"
                 :fit="'contain'" class="blogimage" :preview-src-list="blog.images"></el-image>
         </div>
@@ -75,6 +76,8 @@
                 </el-tooltip>
             </div>
             <BlogCollectButton :blog-id="blog.id" :condition="blog.collect"></BlogCollectButton>
+            <TranslateComponent v-if="!isHome" :content="title + '\n' + content" @translated="translated">
+            </TranslateComponent>
             <ShareButton>
             </ShareButton>
         </div>
@@ -96,7 +99,7 @@ import ClubLink from '../bar/ClubLink.vue';
 import coreaxios from '@/functions/coreaxios';
 import { ElNotification } from 'element-plus';
 import UploadImage from '../image/UploadImage.vue';
-
+import TranslateComponent from '../TranslateComponent.vue';
 const userId = localStorage.getItem('userId')
 const token = localStorage.getItem('jwt')
 const { blog, isHome } = defineProps(["blog", "isHome"])
@@ -106,6 +109,12 @@ const title = ref(null)
 const content = ref(null)
 const images = ref([])
 
+function translated(result) {
+    if (result && result.length > 0) {
+        title.value = result[0].dst
+        content.value = result.slice(1).map(item => item.dst).join('\n')
+    }
+}
 function toBlogPage() {
     router.push(`/home/blogPage/${blog.id}`)
 }
@@ -175,7 +184,6 @@ onMounted(() => {
     gap: 30px;
 }
 
-
 @media screen and (max-width: 768px) {
     .container {
         padding: 15px;
@@ -185,9 +193,19 @@ onMounted(() => {
 
     .blog-brief-tools {
         display: flex;
-        justify-content: space-between;
-        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE and Edge */
         gap: 15px;
+        padding-bottom: 5px;
+    }
+
+    .blog-brief-tools::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Opera */
     }
 
     .blog-berif-header {
@@ -197,7 +215,6 @@ onMounted(() => {
         gap: 5px;
     }
 }
-
 
 .container {
     /* background-color: #F2F4F7; */

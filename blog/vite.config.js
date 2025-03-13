@@ -17,10 +17,16 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
+      '/ai-api': {
         target: 'https://api.siliconflow.cn',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false
+      },
+      '/translate-api': {
+        target: 'https://fanyi-api.baidu.com/api/trans/vip/translate',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/translate-api/, ''),
         secure: false
       }
     }
