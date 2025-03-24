@@ -15,6 +15,8 @@ import HomePage from "@/components/HomePage.vue"
 import NotificationPage from "@/components/message/NotificationPage.vue"
 import UserCollectPage from "@/components/user/UserCollectPage.vue"
 import AdminTest from "@/components/admin/AdminTest.vue"
+import Intro from "@/components/Intro.vue"
+import AuthLayout from "@/components/user/AuthLayout.vue"
 const routes = [
   {
     path: '/home',
@@ -88,6 +90,10 @@ const routes = [
   {
     path:"/admin",
     component:AdminTest
+  },
+  {
+    path:"/intro",
+    component:Intro
   }
 ]
 
@@ -98,19 +104,19 @@ const routes = [
     history: createWebHistory(),
     routes
   })
-  router.beforeEach((to, from, next) => {
-    const token = localStorage.getItem("jwt") ;
-    const userId = localStorage.getItem("userId");  
-    if (to.name === "login" || to.name === "register") {
-      next();
-      return; 
-    } 
-    if (token == null || userId == null) {
-      next({ name: "login" });
-    } else {
-      next();
-    }
-  });
+  // router.beforeEach((to, from, next) => {
+  //   const token = localStorage.getItem("jwt") ;
+  //   const userId = localStorage.getItem("userId");  
+  //   if (to.name === "login" || to.name === "register") {
+  //     next();
+  //     return; 
+  //   } 
+  //   if (token == null || userId == null) {
+  //     next({ name: "login" });
+  //   } else {
+  //     next();
+  //   }
+  // });
 
 
 
