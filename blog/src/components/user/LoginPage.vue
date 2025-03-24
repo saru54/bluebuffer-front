@@ -23,7 +23,7 @@
     <div class="other-login">
       <div class="divider">
         <span class="line"></span>
-        <span class="divider-text">or</span>
+        <span class="divider-text">其他登录方式</span>
         <span class="line"></span>
       </div>
       <div class="other-login-wrapper">
@@ -109,10 +109,6 @@ function login() {
 </script>
 
 <style scoped>
-.content .login-wrapper .right-login-form {
-  flex: 1;
-  position: relative;
-}
 .content .login-wrapper .right-login-form .form-wrapper {
   position: absolute;
   left: 50%;
@@ -222,7 +218,7 @@ function login() {
   vertical-align: middle;
   margin: 0 20px;
   display: inline-block;
-  width: 50px;
+  /* width: 50px; */
   color: rgb(162, 172, 185);
   white-space: normal;
 }
@@ -244,8 +240,8 @@ function login() {
   transition: 0.4s;
 }
 .content .login-wrapper .right-login-form .form-wrapper .other-login .other-login-wrapper .other-login-item img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   vertical-align: middle;
 }
 .content .login-wrapper .right-login-form .form-wrapper .other-login .other-login-wrapper .other-login-item span {

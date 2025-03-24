@@ -15,8 +15,6 @@ import HomePage from "@/components/HomePage.vue"
 import NotificationPage from "@/components/message/NotificationPage.vue"
 import UserCollectPage from "@/components/user/UserCollectPage.vue"
 import AdminTest from "@/components/admin/AdminTest.vue"
-import Intro from "@/components/Intro.vue"
-import AuthLayout from "@/components/user/AuthLayout.vue"
 const routes = [
   {
     path: '/home',
@@ -90,10 +88,6 @@ const routes = [
   {
     path:"/admin",
     component:AdminTest
-  },
-  {
-    path:"/intro",
-    component:Intro
   }
 ]
 
