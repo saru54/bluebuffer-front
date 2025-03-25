@@ -98,19 +98,19 @@ const routes = [
     history: createWebHistory(),
     routes
   })
-  router.beforeEach((to, from, next) => {
-    const token = localStorage.getItem("jwt") ;
-    const userId = localStorage.getItem("userId");  
-    if (to.name === "login" || to.name === "register") {
-      next();
-      return; 
-    } 
-    if (token == null || userId == null) {
-      next({ name: "login" });
-    } else {
-      next();
-    }
-  });
+  // router.beforeEach((to, from, next) => {
+  //   const token = localStorage.getItem("jwt") ;
+  //   const userId = localStorage.getItem("userId");  
+  //   if (to.name === "login" || to.name === "register") {
+  //     next();
+  //     return; 
+  //   } 
+  //   if (token == null || userId == null) {
+  //     next({ name: "login" });
+  //   } else {
+  //     next();
+  //   }
+  // });
 
 
 
