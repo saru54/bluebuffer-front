@@ -45,8 +45,6 @@ function translate() {
     const salt = Math.floor(new Date().getTime() / 1000).toString();
     const signStr = appid + content.content + salt + token;
     const sign = MD5(signStr);
-
-    console.log(content.content)
     axios.get(url, {
         params: {
             q: content.content,
@@ -57,8 +55,6 @@ function translate() {
             sign: sign
         }
     }).then(res => {
-        console.log(res.data)
-
         emit("translated", res.data.trans_result)
     }).catch(e => {
         console.log(e)
