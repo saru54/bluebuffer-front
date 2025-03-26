@@ -14,17 +14,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  
+          fetch-depth: 0  # 确保完整拉取代码
 
       - name: Debug workspace
-        run: echo "Current directory: $(pwd)"; ls -la
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la
 
-      - name: Change to blog directory
-        run: cd blog && ls -la  
+      - name: Change to blog directory and check files
+        run: |
+          cd blog
+          ls -la
 
       - name: Install dependencies
         run: npm install
-        working-directory: blog  
+        working-directory: blog  # 
 
       - name: Build project
         run: npm run build
