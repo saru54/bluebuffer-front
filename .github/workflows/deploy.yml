@@ -55,4 +55,4 @@ jobs:
           script: |
             echo "Restarting Nginx..."
             sleep 5
-            sudo systemctl restart nginx
+            nginx -s reload
