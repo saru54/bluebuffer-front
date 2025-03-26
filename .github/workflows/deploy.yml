@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # 确保完整拉取代码
+          fetch-depth: 0  
 
       - name: Debug workspace
         run: echo "Current directory: $(pwd)"; ls -la
