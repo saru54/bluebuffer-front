@@ -5,8 +5,17 @@
         <div class="header-mask"></div>
         <el-header class="header">
 
-            <div class="left">
-                <h2>BlueBuffer</h2>
+            <div class="left" @mouseover="highlight = true" @mouseleave="highlight = false">
+                <div
+                v-for="(char, index) in text"
+                :key="index"
+                class="char"
+                :class="{ 'highlight': charHighlight[index] }"
+                @mouseenter="setHighlight(index, true)"
+                @mouseleave="setHighlight(index, false)"
+                >
+                    {{ char }}
+                </div>
             </div>
             <div class="middle">
                 <SearchComponent></SearchComponent>
@@ -143,6 +152,12 @@ function toCreateBlogPage() {
     mobileMenuVisible.value = false
     router.push("/home/createBlogPage")
 }
+const text = ref('BlueBuffer');
+const charHighlight = ref(new Array(text.value.length).fill(false));
+
+const setHighlight = (index, highlight) => {
+  charHighlight.value[index] = highlight;
+};
 </script>
 
 <style>
@@ -199,7 +214,44 @@ body {
 
 .left {
     margin-right: auto;
+    color:  #2c8fff;
+    font-family: 'MyFont', sans-serif;
+    cursor: pointer;
+  user-select: none;
 }
+
+@font-face {
+    font-family: 'MyFont';
+    src: url('@/assets/font/GravitasOne-Regular.ttf');
+    font-style: normal;
+}
+
+.char {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 2em;
+}
+
+.highlight {
+  filter: blur(2px);
+  animation: animate 20s linear infinite;
+}
+@keyframes animate{
+    0%,100%{
+        filter: blur(2px);
+        color: #fff;
+        text-shadow: 0 0 5px rgba(30, 144, 255, 0.6),
+                     0 0 10px rgba(30, 144, 255, 0.4),
+                     0 0 15px rgba(30, 144, 255, 0.2),
+                     0 0 20px rgba(30, 144, 255, 0.1); 
+    }
+    5%,95%{
+        filter: blur(0px);
+        color: #666;
+        text-shadow: none;
+    }
+}
+
 
 .right {
     margin-left: auto;
