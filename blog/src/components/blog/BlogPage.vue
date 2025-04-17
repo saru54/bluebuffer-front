@@ -109,6 +109,7 @@ function respondBlog() {
                 message: "评论成功",
 
             })
+            location.reload();
 
         } else {
             ElNotification({

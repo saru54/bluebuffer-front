@@ -132,7 +132,7 @@ function respondComment() {
     }).then(res => {
         if (res.data.code === 201) {
             ElMessageBox.alert("成功")
-            updateData()
+            location.reload();
         }
     })
 
