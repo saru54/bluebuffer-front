@@ -46,6 +46,7 @@ function respond() {
                 title: "通知",
                 message: "评论成功"
             })
+            location.reload()
         } else {
             ElNotification({
                 title: "通知",

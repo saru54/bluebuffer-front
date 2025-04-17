@@ -2,7 +2,6 @@
     <div ref="card" v-if="showComents == true">
         <el-card v-if="commentsForComment.records.length > 0">
             <el-row :gutter="0">
-                <!-- 遍历分页后的评论数据 -->
                 <el-col :span="24" v-for="(item, index) in comments" :key="index">
                     <div class="commentContainer">
                         <div class="main">
