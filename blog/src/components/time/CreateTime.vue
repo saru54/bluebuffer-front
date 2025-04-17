@@ -1,15 +1,13 @@
-<template>
-    <el-text type="info">{{ timeShow }}</el-text>
-</template>
-
 <script setup>
 import { onMounted, ref, watch } from 'vue';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/zh-cn';
 
 dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 dayjs.locale('zh-cn');
 
@@ -21,10 +19,11 @@ function handleTime() {
         timeShow.value = 'UnKnown';
         return;
     }
-    const targetTime = dayjs.utc(time).utcOffset(8);
-    const now = dayjs();
+    const targetTime = dayjs.tz(time, 'America/Los_Angeles').tz('Asia/Shanghai');
+    const now = dayjs().tz('Asia/Shanghai');
 
     const diffInDays = now.diff(targetTime, 'day');
+
     if (diffInDays < 1) {
         timeShow.value = targetTime.fromNow();
     } else if (diffInDays < 30) {
@@ -36,10 +35,6 @@ function handleTime() {
     }
 }
 
-
 onMounted(handleTime);
-
 watch(() => time, handleTime, { immediate: true });
 </script>
-
-<style scoped></style>
