@@ -19,9 +19,20 @@ function handleTime() {
         timeShow.value = 'UnKnown';
         return;
     }
-    const targetTime = dayjs.tz(time, 'America/Los_Angeles').tz('Asia/Shanghai');
-    const now = dayjs().tz('Asia/Shanghai');
 
+    let parsedTime = time;
+    if (!time.endsWith('Z') && !time.includes('+')) {
+        parsedTime += '-07:00';
+    }
+
+    const targetTime = dayjs.tz(parsedTime, 'America/Los_Angeles').tz('Asia/Shanghai');
+
+    if (!targetTime.isValid()) {
+        timeShow.value = 'UnKnown';
+        return;
+    }
+
+    const now = dayjs().tz('Asia/Shanghai');
     const diffInDays = now.diff(targetTime, 'day');
 
     if (diffInDays < 1) {
@@ -34,6 +45,7 @@ function handleTime() {
         timeShow.value = targetTime.format('YYYY年MM月DD日');
     }
 }
+
 
 onMounted(handleTime);
 watch(() => time, handleTime, { immediate: true });
