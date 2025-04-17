@@ -1,0 +1,63 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+ 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  
+
+      - name: Debug workspace
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la
+
+      - name: Change to blog directory and check files
+        run: |
+          cd blog
+          ls -la
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: blog  # 
+
+      - name: Build project
+        run: npm run build
+        working-directory: blog  
+
+      - name: Deploy to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          source: "blog/dist/*"
+          target: "/var/www/html/"
+          strip_components: 2
+
+      - name: Restart Nginx
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          script: |
+            echo "Restarting Nginx..."
+            sleep 5
+            nginx -s reload
