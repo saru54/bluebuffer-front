@@ -25,14 +25,8 @@ function handleTime() {
         return;
     }
 
-
-    let timeStr = time;
-    const timezoneReg = /[Zz]|([+-]\d{2}:\d{2})$/;
-    if (!timezoneReg.test(time)) {
-        timeStr += '-07:00';
-    }
-
-    const targetTime = dayjs.tz(timeStr, 'America/Los_Angeles').tz('Asia/Shanghai');
+    // 假设 time 是服务器本地时间（例如：America/Los_Angeles）
+    const targetTime = dayjs.tz(time, 'America/Los_Angeles').tz('Asia/Shanghai');  // 转换为北京时间
     const now = dayjs().tz('Asia/Shanghai');
 
     if (!targetTime.isValid()) {
@@ -52,6 +46,7 @@ function handleTime() {
         timeShow.value = targetTime.format('YYYY年MM月DD日');
     }
 }
+
 
 onMounted(handleTime);
 watch(() => time, handleTime, { immediate: true });
