@@ -6,8 +6,10 @@
 import { onMounted, ref, watch } from 'vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/zh-cn';
 
+dayjs.extend(utc);
 dayjs.extend(relativeTime);
 dayjs.locale('zh-cn');
 
@@ -19,29 +21,24 @@ function handleTime() {
         timeShow.value = 'UnKnown';
         return;
     }
-
-    const targetTime = dayjs(time);
+    const targetTime = dayjs.utc(time).utcOffset(8);
     const now = dayjs();
-    const diffInDays = now.diff(targetTime, 'day');
 
+    const diffInDays = now.diff(targetTime, 'day');
     if (diffInDays < 1) {
-        // 24小时内
         timeShow.value = targetTime.fromNow();
     } else if (diffInDays < 30) {
-        // 1天到30天之间
         timeShow.value = `${diffInDays} 天前`;
     } else if (diffInDays < 365) {
-        // 超过1个月
         timeShow.value = targetTime.format('MM月DD日');
     } else {
-        // 超过1年
         timeShow.value = targetTime.format('YYYY年MM月DD日');
     }
 }
 
+
 onMounted(handleTime);
 
-// 如果 `time` 可能会变化，可以监听它
 watch(() => time, handleTime, { immediate: true });
 </script>
 
