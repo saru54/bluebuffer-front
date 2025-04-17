@@ -27,7 +27,8 @@ function handleTime() {
 
 
     let timeStr = time;
-    if (!time.includes('Z') && !time.includes('+') && !time.includes('-')) {
+    const timezoneReg = /[Zz]|([+-]\d{2}:\d{2})$/;
+    if (!timezoneReg.test(time)) {
         timeStr += '-07:00';
     }
 
