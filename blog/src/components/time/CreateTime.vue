@@ -1,3 +1,7 @@
+<template>
+    <el-text type="info">{{ timeShow }}</el-text>
+</template>
+
 <script setup>
 import { onMounted, ref, watch } from 'vue';
 import dayjs from 'dayjs';
@@ -6,6 +10,7 @@ import timezone from 'dayjs/plugin/timezone';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/zh-cn';
 
+// 注册插件
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
@@ -20,19 +25,20 @@ function handleTime() {
         return;
     }
 
-    let parsedTime = time;
-    if (!time.endsWith('Z') && !time.includes('+')) {
-        parsedTime += '-07:00';
+
+    let timeStr = time;
+    if (!time.includes('Z') && !time.includes('+') && !time.includes('-')) {
+        timeStr += '-07:00';
     }
 
-    const targetTime = dayjs.tz(parsedTime, 'America/Los_Angeles').tz('Asia/Shanghai');
+    const targetTime = dayjs.tz(timeStr, 'America/Los_Angeles').tz('Asia/Shanghai');
+    const now = dayjs().tz('Asia/Shanghai');
 
     if (!targetTime.isValid()) {
         timeShow.value = 'UnKnown';
         return;
     }
 
-    const now = dayjs().tz('Asia/Shanghai');
     const diffInDays = now.diff(targetTime, 'day');
 
     if (diffInDays < 1) {
@@ -46,7 +52,8 @@ function handleTime() {
     }
 }
 
-
 onMounted(handleTime);
 watch(() => time, handleTime, { immediate: true });
 </script>
+
+<style scoped></style>
