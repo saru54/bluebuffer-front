@@ -34,6 +34,7 @@ import { onMounted, ref, watch } from 'vue';
 import UploadImage from '../image/UploadImage.vue';
 import ClubLink from '../bar/ClubLink.vue';
 import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
 const title = ref(null)
 const disabledCondition = ref(true)
 const content = ref(null)
@@ -43,7 +44,7 @@ const userId = localStorage.getItem('userId')
 const club = ref(null)
 const subscribedClub = ref([])
 const clubName = ref("")
-
+const router = useRouter()
 watch(title, () => {
     if (title.value.length > 0) {
         disabledCondition.value = false
@@ -113,6 +114,7 @@ function post() {
                 type: 'success',
                 plain: true
             })
+            router.push(`/home/clubPage/${club.value.id}`)
         }
     })
 }
