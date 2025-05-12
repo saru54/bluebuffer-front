@@ -29,9 +29,9 @@
                         <div v-for="message in selectContact.message" :key="message.id" class="message-item"
                             :class="{ 'sendMessage': message.type === MessageType.Self, 'receiveMessage': message.type !== MessageType.Self }">
                             <p>{{ message.content }}</p>
-                            <div>
+                            <!-- <div>
                                 <CreateTime :time="dayjs(time).subtract(7, 'hour')"></CreateTime>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
