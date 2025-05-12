@@ -30,7 +30,7 @@
                             :class="{ 'sendMessage': message.type === MessageType.Self, 'receiveMessage': message.type !== MessageType.Self }">
                             <p>{{ message.content }}</p>
                             <div>
-                                <CreateTime :time="message.sendTime"></CreateTime>
+                                <CreateTime :time="dayjs(time).subtract(7, 'hour')"></CreateTime>
                             </div>
                         </div>
 
