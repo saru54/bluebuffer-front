@@ -43,10 +43,10 @@
                         </div>
                         <div class="info-content">
                             <el-text class="info-description">{{ clubInfo.description }}</el-text>
-                            <div class="info-item">
+                            <!-- <div class="info-item">
                                 <el-text type="info">创建时间:</el-text>
                                 <CreateTime :time="clubInfo.createTime"></CreateTime>
-                            </div>
+                            </div> -->
 
                             <div class="info-item">
                                 <el-text type="info">订阅数:</el-text>

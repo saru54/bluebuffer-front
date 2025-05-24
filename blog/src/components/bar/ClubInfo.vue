@@ -2,8 +2,8 @@
     <div v-if="clubInfo" ref="clubInfoRef" class="club-info" :style="stickyStyle">
         <el-text type="info">{{ clubInfo.description }}</el-text>
         <div>
-            <el-text type="info" size="large">创建时间:</el-text>
-            <CreateTime :time="clubInfo.createTime"></CreateTime>
+            <!-- <el-text type="info" size="large">创建时间:</el-text>
+            <CreateTime :time="clubInfo.createTime"></CreateTime> -->
         </div>
 
         <div>
