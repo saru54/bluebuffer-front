@@ -48,10 +48,10 @@
                                 <CreateTime :time="clubInfo.createTime"></CreateTime>
                             </div> -->
 
-                            <div class="info-item">
+                            <!-- <div class="info-item">
                                 <el-text type="info">订阅数:</el-text>
                                 <span>{{ clubInfo.subscribeCount || 0 }}</span>
-                            </div>
+                            </div> -->
 
                             <div class="info-item">
                                 <el-text type="info">管理员:</el-text>

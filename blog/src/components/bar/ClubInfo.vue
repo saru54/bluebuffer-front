@@ -4,11 +4,15 @@
         <div>
             <!-- <el-text type="info" size="large">创建时间:</el-text>
             <CreateTime :time="clubInfo.createTime"></CreateTime> -->
+
+            <el-text type="info" size="large">俱乐部:</el-text>
+            <ClubLink :club-name="clubInfo.name" :club-id="clubInfo.id" :club-image="clubInfo.image" :disable="false">
+            </ClubLink>
         </div>
 
-        <div>
+        <!-- <div>
             <el-text type="info" size="large">订阅数:</el-text>
-        </div>
+        </div> -->
 
         <div>
             <el-text type="info" size="large">管理员:</el-text>
@@ -26,6 +30,7 @@ import { onBeforeUnmount, onMounted, ref, nextTick } from 'vue';
 import coreaxios from '@/functions/coreaxios';
 import UserLink from '../user/UserLink.vue';
 import CreateTime from '../time/CreateTime.vue';
+import ClubLink from './ClubLink.vue';
 const userId = localStorage.getItem("userId");
 const { clubId } = defineProps(['clubId']);
 const token = localStorage.getItem("jwt");
