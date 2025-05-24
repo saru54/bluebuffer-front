@@ -6,10 +6,12 @@
             <CreateTime :time="clubInfo.createTime"></CreateTime> -->
 
             <el-text type="info" size="large">俱乐部:</el-text>
+
+        </div>
+        <div class="club_admin">
             <ClubLink :club-name="clubInfo.name" :club-id="clubInfo.id" :club-image="clubInfo.image" :disable="false">
             </ClubLink>
         </div>
-
         <!-- <div>
             <el-text type="info" size="large">订阅数:</el-text>
         </div> -->
